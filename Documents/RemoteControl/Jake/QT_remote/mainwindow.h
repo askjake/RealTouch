@@ -78,7 +78,6 @@ private slots:
     void on_checkBox_16_clicked(bool checked);
     void runCommand();
     void on_checkBox_clicked(bool checked);
-    void initSerial();
     void openSerialPort1();
     void openSerialPort2();
     void writeData(const QByteArray &data);
@@ -126,9 +125,9 @@ private slots:
     void on_pushButton_29_clicked();
     void on_pushButton_32_clicked();
     void on_pushButton_31_clicked();
-    void on_serialOuput_textChanged();
+//    void on_serialOuput_textChanged();
 
-    void on_serialOuput_windowIconTextChanged(const QString &iconText);
+//    void on_serialOuput_windowIconTextChanged(const QString &iconText);
 
 private:
     Ui::MainWindow *ui;
@@ -152,6 +151,7 @@ private:
     QString slot16;
     QString defaultCom1;
     QString defaultCom2;
+    void initSerial();
 
 
 };
