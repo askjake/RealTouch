@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>dishRemote.jpg</file>
+        <file>fa528631ea7d3ca377e5cc75c36da08b.jpeg</file>
+        <file>dish.png</file>
+        <file>dish-network-3-logo-png-transparent.png</file>
+        <file>dish (3).png</file>
+    </qresource>
+</RCC>
