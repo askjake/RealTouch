@@ -78,6 +78,7 @@ private slots:
     void on_checkBox_16_clicked(bool checked);
     void runCommand();
     void on_checkBox_clicked(bool checked);
+    void initSerial();
     void openSerialPort1();
     void openSerialPort2();
     void writeData(const QByteArray &data);

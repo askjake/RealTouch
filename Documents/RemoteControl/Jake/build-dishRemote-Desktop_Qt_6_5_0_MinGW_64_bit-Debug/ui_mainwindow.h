@@ -17,6 +17,7 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -109,6 +110,7 @@ public:
     QLineEdit *lineEdit_2;
     QLineEdit *lineEdit_3;
     QPushButton *pushButton_29;
+    QTextEdit *SerialOuput;
 
     void setupUi(QMainWindow *MainWindow)
     {
@@ -430,7 +432,7 @@ public:
         widget_3 = new QWidget(widget_2);
         widget_3->setObjectName("widget_3");
         widget_3->setEnabled(true);
-        widget_3->setGeometry(QRect(0, 0, 531, 571));
+        widget_3->setGeometry(QRect(0, 0, 531, 641));
         QPalette palette2;
         widget_3->setPalette(palette2);
         QFont font;
@@ -1017,7 +1019,7 @@ public:
         pushButton42->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         pushButton_10 = new QPushButton(widget_3);
         pushButton_10->setObjectName("pushButton_10");
-        pushButton_10->setGeometry(QRect(180, 530, 61, 21));
+        pushButton_10->setGeometry(QRect(170, 600, 61, 21));
         QPalette palette18;
         palette18.setBrush(QPalette::Active, QPalette::WindowText, brush);
         palette18.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -1157,7 +1159,7 @@ public:
         pushButton1->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         pushButton = new QPushButton(widget_3);
         pushButton->setObjectName("pushButton");
-        pushButton->setGeometry(QRect(90, 490, 101, 24));
+        pushButton->setGeometry(QRect(80, 570, 101, 24));
         QPalette palette22;
         palette22.setBrush(QPalette::Active, QPalette::WindowText, brush);
         palette22.setBrush(QPalette::Active, QPalette::Button, brush1);
@@ -1373,8 +1375,11 @@ public:
         lineEdit_3->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
         pushButton_29 = new QPushButton(widget_3);
         pushButton_29->setObjectName("pushButton_29");
-        pushButton_29->setGeometry(QRect(40, 530, 61, 21));
+        pushButton_29->setGeometry(QRect(30, 600, 61, 21));
         pushButton_29->setStyleSheet(QString::fromUtf8("color: rgb(255, 255, 255);"));
+        SerialOuput = new QTextEdit(widget_3);
+        SerialOuput->setObjectName("SerialOuput");
+        SerialOuput->setGeometry(QRect(10, 390, 241, 171));
 
         horizontalLayout->addWidget(widget_2);
 

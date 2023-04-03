@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     MainWindow::comboBox_1_addItem();
     MainWindow::comboBox_2_addItem();
     QSettings settings("config.ini", QSettings::IniFormat);
-
+    initSerial();
 
     QString slot1 = settings.value("slot1").toString();
     ui->lineEdit_2->setText(slot1);
@@ -141,6 +141,34 @@ MainWindow::~MainWindow()
 
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+// Add the include statement for `QSerialPortInfo`
+#include <QSerialPortInfo>
+
+// Add the `initSerial` function
+void MainWindow::initSerial() {
+    // Get a list of all available serial ports
+    QList<QSerialPortInfo> serialPortInfos = QSerialPortInfo::availablePorts();
+
+    // If no serial ports are found, print an error message
+    if (serialPortInfos.isEmpty()) {
+        qDebug() << "No serial ports found";
+    } else {
+        // Print the number of serial ports found
+        qDebug() << "Number of serial ports:" << serialPortInfos.count();
+
+        // Iterate over each available serial port and print its details
+        foreach (const QSerialPortInfo& serialPortInfo, serialPortInfos) {
+            qDebug() << "Name:" << serialPortInfo.portName()
+                     << "Description:" << serialPortInfo.description()
+                     << "Manufacturer:" << serialPortInfo.manufacturer();
+        }
+
+        // TODO: Open the serial port and configure its settings
+    }
+}
+
+
+
 
 
 
@@ -1093,8 +1121,5 @@ void MainWindow::on_pushButton_31_clicked()
 }
 
 
-void MainWindow::displaySerialOuput(const QString& output)
-{
 
-}
 
