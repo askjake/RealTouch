@@ -81,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent)
     serial2 = new QSerialPort();
     MainWindow::comboBox_1_addItem();
     MainWindow::comboBox_2_addItem();
-
     QSettings settings("config.ini", QSettings::IniFormat);
 
 
@@ -1091,5 +1090,11 @@ void MainWindow::on_pushButton_31_clicked()
 {
     cmd = "B";
     MainWindow::runCommand();
+}
+
+
+void MainWindow::displaySerialOuput(const QString& output)
+{
+
 }
 
