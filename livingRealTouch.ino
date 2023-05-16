@@ -1,5 +1,6 @@
 #include <Wire.h>
 #include <math.h>
+#include <SoftWire.h>
 
 #define MUX_1 0x70
 #define MUX_2 0x72
@@ -11,6 +12,8 @@
 #define rf4ce_reset 2
 uint8_t activePort = 0;
 int remote;
+
+SoftWire sw(4, 5);  // Replace SDA_PIN and SCL_PIN with your actual pin numbers
 
 /////////////////////////////////////
 const int remoteTiming = 5;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
@@ -41,9 +44,9 @@ bool remoteCommandEntered = false;
 
 
 void setup() {
-  Wire.begin(ARDUINO_SLAVE_ADDR);  // Initialize I2C communication
-  Wire.onReceive(receiveEvent);
-  Wire.onRequest(requestEvent);
+  sw.begin(ARDUINO_SLAVE_ADDR);  // Initialize I2C communication
+  sw.onReceive(receiveEvent);
+  sw.onRequest(requestEvent);
   pinMode(TRIGGER_PIN, OUTPUT);
   pinMode(mux_reset, OUTPUT);
   pinMode(rf4ce_reset, OUTPUT);
@@ -493,7 +496,7 @@ void loop() {
 
 
 void triggerMaster() {
-  //Wire.begin(ARDUINO_SLAVE_ADDR);
+  //sw.begin(ARDUINO_SLAVE_ADDR);
   Serial.println("Triggering com with remote");
   digitalWrite(TRIGGER_PIN, LOW);
   delay(remoteTiming);  // Trigger duration: 5ms
@@ -521,10 +524,10 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   Serial.println(pcaAddress, HEX);
   Serial.print("port: ");
   Serial.println(port);
-  //Wire.begin();
-  Wire.beginTransmission(pcaAddress);
-  Wire.write(1 << port);  // Set the bit for the desired port
-  Wire.endTransmission();
+  //sw.begin();
+  sw.beginTransmission(pcaAddress);
+  sw.write(1 << port);  // Set the bit for the desired port
+  sw.endTransmission();
 
   activePort = port;  // Update the active port
   Serial.print("active port: ");
@@ -565,9 +568,9 @@ void receiveEvent(int byteCount) {
   byte command = 0;
   byte byteRead = 0;
   receivedValue = 0;
-  while (0 < Wire.available())  // loop through all but the last
+  while (0 < sw.available())  // loop through all but the last
   {
-    byteRead = Wire.read();
+    byteRead = sw.read();
 
     if (byteCount == 0) {
       readMode = byteRead;
@@ -608,22 +611,22 @@ void receiveEvent(int byteCount) {
     if (debug) {
       Serial.println("clear interrupt");
     }
-    byteRead = Wire.read();  //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
-    Wire.write(0x00);        //  0x00 for response back to microcontroller
+    byteRead = sw.read();  //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
+    sw.write(0x00);        //  0x00 for response back to microcontroller
 
     // Send the variables set earlier to the correct registers
-    Wire.write(CFG_REG);
-    Wire.write(INT_REG);
-    Wire.write(EVT_REG);
-    Wire.write(KEY_CMD);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
+    sw.write(CFG_REG);
+    sw.write(INT_REG);
+    sw.write(EVT_REG);
+    sw.write(KEY_CMD);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
     // Trigger the master
     triggerMaster();
     return;
@@ -637,22 +640,22 @@ void requestEvent() {
     Serial.println("void requestEvent()");
   }
   if (readMode == 1) {
-    Wire.write(CFG_REG);
+    sw.write(CFG_REG);
     Serial.println(CFG_REG);
-    Wire.write(INT_REG);
+    sw.write(INT_REG);
     Serial.println(INT_REG);
-    Wire.write(EVT_REG);
+    sw.write(EVT_REG);
     Serial.println(EVT_REG);
-    Wire.write(KEY_CMD);
+    sw.write(KEY_CMD);
     Serial.println(KEY_CMD);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
+    sw.write(BLANK);
     Serial.println("COMMAND SENT");
     if (debug) {
       Serial.println(KEY_CMD);
