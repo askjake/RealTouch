@@ -67,6 +67,9 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(2), triggerSend, FALLING);  // Run triggerSend() whenever pin 2 goes from HIGH to LOW
 pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
   digitalWrite(TRIGGER_PIN, LOW); // Start with pin 12 LOW
+delay(15);
+  digitalWrite(TRIGGER_PIN, HIGJH); // Start with pin 12 LOW
+
   attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerSend, RISING);  // Run triggerSend() whenever pin 12 goes from LOW to HIGH
 }
 void loop() {
@@ -498,14 +501,13 @@ void loop() {
     remoteCommandEntered = false;
   }
   if (sendBytes) {
-      Serial.print("sending: ");
-  Serial.println("mmmuuuxxx");
-
+    Serial.print("sending: ");
+    Serial.println("mmmuuuxxx");
     sendBytes = false;  // Reset the flag
     Wire.beginTransmission(0x70);
     Wire.write(0x01);
     Wire.endTransmission();
-        digitalWrite(TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
+    digitalWrite(TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
 
   }
 }
