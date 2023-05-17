@@ -4,6 +4,7 @@
 uint8_t MUX_ADR = 0x70; // Replace with your actual I2C address
 uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
 
+//#define LED_PIN 13
 #define TRIGGER_PIN 12
 #define MUX_1 0x70
 #define MUX_2 0x72
@@ -15,6 +16,9 @@ uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
 #define rf4ce_reset 2
 uint8_t activePort = 0;
 int remote;
+#define FOUR_HOURS 10000UL  // 4 hours in milliseconds
+
+unsigned long previousMillis = 0;  // Will store the last time the I2C data was sent
 
 /////////////////////////////////////
 const int remoteTiming = 5;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
@@ -65,16 +69,19 @@ void setup() {
   selectDefaultBus();  // Select default bus on startup
   //pinMode(2, INPUT_PULLUP); // Set up pin 2 as an input with a pull-up resistor
   attachInterrupt(digitalPinToInterrupt(2), triggerSend, FALLING);  // Run triggerSend() whenever pin 2 goes from HIGH to LOW
-pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
+  pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
   digitalWrite(TRIGGER_PIN, LOW); // Start with pin 12 LOW
-delay(500);
+  delay(500);
   digitalWrite(TRIGGER_PIN, HIGH); // Start with pin 12 LOW
-
   attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerSend, RISING);  // Run triggerSend() whenever pin 12 goes from LOW to HIGH
+    //pinMode(LED_PIN, OUTPUT); // Set the LED pin as output
+
 }
 void loop() {
 
-
+unsigned long currentMillis = millis();
+  
+  
   // Check if there is any input available
   if (Serial.available() > 0) {
     String inputString = Serial.readStringUntil('\n');  // read the incoming string
@@ -389,7 +396,11 @@ void loop() {
 
     }  
   }
-
+ if (currentMillis - previousMillis >= FOUR_HOURS) {
+    // Save the current time
+    previousMillis = currentMillis;
+    triggerSend();
+ }
 
   if (remoteCommandEntered) {
     // Determine the appropriate remote address based on the remote number
@@ -508,7 +519,8 @@ void loop() {
     Wire.write(0x01);
     Wire.endTransmission();
     digitalWrite(TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
-
+    //digitalWrite(INTERNAL_TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
+    //digitalWrite(LED_PIN, LOW); // Turn off the LED
   }
 }
 
