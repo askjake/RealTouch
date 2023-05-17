@@ -615,32 +615,32 @@ if(howMany == byteCursor+1) {
       if (debug){Serial.println(receivedByte);}
       byteCursor++;
       Serial.println("line 617");
-  Serial.print("byte byteCursor = 0;  "  );
+  Serial.print(" byteCursor   "  );
   Serial.println(byteCursor);
-  Serial.print("byte receivedValues[45];  "  );
+  //Serial.print("byte receivedValues[45];  "  );
   //Serial.println(receivedValues);
-  Serial.print("byte receivedByte = 0;  "  );
+  Serial.print(" receivedByte  "  );
   Serial.println(receivedByte);
-  Serial.print("byte command = 0;  "  );
+  Serial.print(" command  "  );
   Serial.println(command);
-  Serial.print("byte byteRead = 0;  "  );
+  Serial.print(" byteRead  "  );
   Serial.println(byteRead);
-  Serial.print("receivedValue = 0;  "  );
+  Serial.print("receivedValue   "  );
   Serial.println(receivedValue);
     }
     howMany--;
           Serial.println("line 632");
-  Serial.print("byte byteCursor = 0;  "  );
+  Serial.print("byte byteCursor  "  );
   Serial.println(byteCursor);
-  Serial.print("byte receivedValues[45];  "  );
+  //Serial.print("byte receivedValues[45];  "  );
  // Serial.println(receivedValues);
-  Serial.print("byte receivedByte = 0;  "  );
+  Serial.print(" receivedByte  "  );
   Serial.println(receivedByte);
-  Serial.print("byte command = 0;  "  );
+  Serial.print(" command   "  );
   Serial.println(command);
-  Serial.print("byte byteRead = 0;  "  );
+  Serial.print(" byteRead   "  );
   Serial.println(byteRead);
-  Serial.print("receivedValue = 0;  "  );
+  Serial.print("receivedValue   "  );
   Serial.println(receivedValue);
   }
   for(byte otherByteCursor = byteCursor; otherByteCursor>0; otherByteCursor--) {
