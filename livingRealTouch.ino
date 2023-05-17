@@ -63,11 +63,11 @@ void setup() {
   INT_REG = 0x01;
   EVT_REG = 0x01;
   selectDefaultBus();  // Select default bus on startup
-  pinMode(2, INPUT_PULLUP); // Set up pin 2 as an input with a pull-up resistor
+  //pinMode(2, INPUT_PULLUP); // Set up pin 2 as an input with a pull-up resistor
   attachInterrupt(digitalPinToInterrupt(2), triggerSend, FALLING);  // Run triggerSend() whenever pin 2 goes from HIGH to LOW
 pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
   digitalWrite(TRIGGER_PIN, LOW); // Start with pin 12 LOW
-delay(15);
+delay(500);
   digitalWrite(TRIGGER_PIN, HIGH); // Start with pin 12 LOW
 
   attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerSend, RISING);  // Run triggerSend() whenever pin 12 goes from LOW to HIGH
