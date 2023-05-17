@@ -521,6 +521,15 @@ unsigned long currentMillis = millis();
     digitalWrite(TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
     //digitalWrite(INTERNAL_TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
     //digitalWrite(LED_PIN, LOW); // Turn off the LED
+  byte error = Wire.endTransmission();
+
+if (error == 0) {
+  Serial.println("I2C transmission successful");
+} else {
+  Serial.println("I2C transmission failed");
+  Serial.println(error);
+}
+
   }
 }
 
@@ -565,6 +574,7 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   Serial.print("port: ");
   Serial.println(port);
   //Wire.begin();
+  setup();
   Wire.beginTransmission(pcaAddress);
   Wire.write(1 << port);  // Set the bit for the desired port
   Wire.endTransmission();
