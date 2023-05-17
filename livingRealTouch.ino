@@ -601,18 +601,20 @@ void receiveEvent(int howMany){
   {
     byteRead = Wire.read();
     
-if(howMany == byteCursor+1) {
+if (byteCursor == 0) {
       readMode = byteRead;
       command = byteRead;
       Serial.print("read mode line 607");
       Serial.println(readMode);
-      if (debug){Serial.print("COMMAND I GOT: ");}
-      if (debug){Serial.println(command);}      
+      Serial.print("COMMAND I GOT: ");
+      Serial.println(command);      
     } else {
       receivedByte = byteRead;
-      if (debug){Serial.print("got more than a command: ");}
+      Serial.print("got more than a command: ");
       receivedValues[byteCursor] = receivedByte;
-      if (debug){Serial.println(receivedByte);}
+      Serial.print("receivedByte: ");
+      Serial.println(receivedByte);
+      
       byteCursor++;
       Serial.println("line 617");
   Serial.print(" byteCursor   "  );
@@ -644,7 +646,9 @@ if(howMany == byteCursor+1) {
   Serial.println(receivedValue);
   }
   for(byte otherByteCursor = byteCursor; otherByteCursor>0; otherByteCursor--) {
-    receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, byteCursor-1)  ;
+    //receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, byteCursor-1)  ;
+    receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, otherByteCursor-1);
+
     //Serial.println("qoot: ");
     if (debug){Serial.print(byteCursor-1);}
     if (debug){Serial.print(":");}
