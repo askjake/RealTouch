@@ -579,7 +579,7 @@ void requestEvent(){
     Serial.println("GOT 0x80/n"); 
     }  
   else {
-    if (debug){Serial.println("GOT DIFFERENT READ MODE"); }
+    if (debug){Serial.print("GOT DIFFERENT READ MODE  "); }
     if (debug){Serial.println(readMode); }
     //
     Serial.flush();
@@ -590,20 +590,22 @@ void requestEvent(){
 
 void receiveEvent(int howMany){
   if (debug){Serial.println("receive event");}
-  byte byteCount = 0;
+  //byte byteCount = 0;
   byte byteCursor = 0;
   byte receivedValues[45];
   byte receivedByte = 0;
   byte command = 0;
   byte byteRead = 0;
   receivedValue = 0;
-  while(0 < Wire.available()) // loop through all but the last
+  while (howMany > 0)  // loop through all but the last
   {
     byteRead = Wire.read();
     
-    if(byteCount ==0) {
+if(howMany == byteCursor+1) {
       readMode = byteRead;
       command = byteRead;
+      Serial.print("read mode line 607");
+      Serial.println(readMode);
       if (debug){Serial.print("COMMAND I GOT: ");}
       if (debug){Serial.println(command);}      
     } else {
@@ -612,9 +614,34 @@ void receiveEvent(int howMany){
       receivedValues[byteCursor] = receivedByte;
       if (debug){Serial.println(receivedByte);}
       byteCursor++;
+      Serial.println("line 617");
+  Serial.print("byte byteCursor = 0;  "  );
+  Serial.println(byteCursor);
+  Serial.print("byte receivedValues[45];  "  );
+  //Serial.println(receivedValues);
+  Serial.print("byte receivedByte = 0;  "  );
+  Serial.println(receivedByte);
+  Serial.print("byte command = 0;  "  );
+  Serial.println(command);
+  Serial.print("byte byteRead = 0;  "  );
+  Serial.println(byteRead);
+  Serial.print("receivedValue = 0;  "  );
+  Serial.println(receivedValue);
     }
-    byteCount++;
-    
+    howMany--;
+          Serial.println("line 632");
+  Serial.print("byte byteCursor = 0;  "  );
+  Serial.println(byteCursor);
+  Serial.print("byte receivedValues[45];  "  );
+ // Serial.println(receivedValues);
+  Serial.print("byte receivedByte = 0;  "  );
+  Serial.println(receivedByte);
+  Serial.print("byte command = 0;  "  );
+  Serial.println(command);
+  Serial.print("byte byteRead = 0;  "  );
+  Serial.println(byteRead);
+  Serial.print("receivedValue = 0;  "  );
+  Serial.println(receivedValue);
   }
   for(byte otherByteCursor = byteCursor; otherByteCursor>0; otherByteCursor--) {
     receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, byteCursor-1)  ;
@@ -640,7 +667,9 @@ void receiveEvent(int howMany){
     if (debug){Serial.println("clear interrupt");}
     //delay(200);
     byteRead = Wire.read();   //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
-    Wire.write(0x00);    //  0x00 for response back to microcontroller
+    Serial.print("byteread: ");
+    Serial.println(byteRead);
+    Wire.write(0xFF);    //  0x00 for response back to microcontroller
     //Serial.flush();
    return;
  
