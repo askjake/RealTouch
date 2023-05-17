@@ -632,9 +632,12 @@ void receiveEvent(int byteCount) {
 void requestEvent() {
 
   if (debug) {
-    selectPort(pcaAddress, port);
+    //selectPort(pcaAddress, port);
     Serial.println("void requestEvent()");}
+    Wire.write(MUX_ADR);
+    Wire.write(MUX_BUS);
   if (readMode == 1) {
+    
     Wire.write(CFG_REG);
     Serial.println(CFG_REG);
     Wire.write(INT_REG);
