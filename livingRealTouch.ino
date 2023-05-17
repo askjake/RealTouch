@@ -4,31 +4,22 @@
 uint8_t MUX_ADR = 0x70; // Replace with your actual I2C address
 uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
 
-//#define LED_PIN 13
-#define TRIGGER_PIN 12
 #define MUX_1 0x70
 #define MUX_2 0x72
 #define MUX_3 0x74
 #define MUX_4 0x76
 #define ARDUINO_SLAVE_ADDR 0x34
-#define TRIGGER 4
+#define TRIGGER_PIN 4
 #define mux_reset 13
 #define rf4ce_reset 2
 uint8_t activePort = 0;
 int remote;
-#define FOUR_HOURS 10000UL  // 4 hours in milliseconds
-
-unsigned long previousMillis = 0;  // Will store the last time the I2C data was sent
-
 /////////////////////////////////////
 const int remoteTiming = 5;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
 String KEY_RELEASE_TIME_str;
 volatile int KEY_RELEASE_TIME = 20;
 volatile byte readMode = 0;
 volatile int receivedValue = 0;
-volatile bool sendBytes = false;
-
-
 String BUTTON;
 String command;
 byte KEY_CMD;
@@ -38,55 +29,39 @@ boolean needRelease;
 boolean holdButton = 0;
 boolean longholdButton = 0;
 boolean debug = 1;  //debug mode
-
-
 // REGISTER VALUES
 byte BLANK = 0x00;
 byte CFG_REG = 0xA7;
 byte INT_REG = 0x00;
 byte EVT_REG = 0x00;
-
 /////////////////////////////////////
 bool remoteCommandEntered = false;
-
-
 void setup() {
+
   Wire.begin(ARDUINO_SLAVE_ADDR);  // Initialize I2C communication
   Wire.onReceive(receiveEvent);
   Wire.onRequest(requestEvent);
-  pinMode(TRIGGER, OUTPUT);
+  pinMode(TRIGGER_PIN, OUTPUT);
   pinMode(mux_reset, OUTPUT);
   pinMode(rf4ce_reset, OUTPUT);
-  digitalWrite(TRIGGER, HIGH);  // Set the trigger pin HIGH initially
+  digitalWrite(TRIGGER_PIN, HIGH);  // Set the trigger pin HIGH initially
   Serial.begin(115200);
   while (!Serial);
   Serial.println("I2C Slave Initialized");
   reset_mux();
   reset_rf4ce();
-  
+
   INT_REG = 0x01;
   EVT_REG = 0x01;
   selectDefaultBus();  // Select default bus on startup
-  //pinMode(2, INPUT_PULLUP); // Set up pin 2 as an input with a pull-up resistor
-  attachInterrupt(digitalPinToInterrupt(2), triggerSend, FALLING);  // Run triggerSend() whenever pin 2 goes from HIGH to LOW
-  pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
-  digitalWrite(TRIGGER_PIN, LOW); // Start with pin 12 LOW
-  delay(500);
-  digitalWrite(TRIGGER_PIN, HIGH); // Start with pin 12 LOW
-  attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerSend, RISING);  // Run triggerSend() whenever pin 12 goes from LOW to HIGH
-    //pinMode(LED_PIN, OUTPUT); // Set the LED pin as output
 
 }
 void loop() {
 
-unsigned long currentMillis = millis();
-  
-  
   // Check if there is any input available
   if (Serial.available() > 0) {
     String inputString = Serial.readStringUntil('\n');  // read the incoming string
     inputString.trim();                                 // remove any leading/trailing white space
-
     if (inputString.startsWith("remote")) {
       remoteCommandEntered = true;
       unsigned int spaceIndex = inputString.indexOf(" ");  // find the index of the space
@@ -393,16 +368,10 @@ unsigned long currentMillis = millis();
     } else if (inputString == "Debug_off") {  //
       debug = 0;
       Serial.println("debug OFF");
-
     }  
   }
- if (currentMillis - previousMillis >= FOUR_HOURS) {
-    // Save the current time
-    previousMillis = currentMillis;
-    triggerSend();
- }
-
   if (remoteCommandEntered) {
+    
     // Determine the appropriate remote address based on the remote number
     uint8_t pcaAddress = MUX_1; // intitialize default mux
     uint8_t port = 0;  // Initialize port to 0
@@ -511,38 +480,14 @@ unsigned long currentMillis = millis();
     delay(10);
     remoteCommandEntered = false;
   }
-  if (sendBytes) {
-    Serial.print("sending: ");
-    Serial.println("mmmuuuxxx");
-    sendBytes = false;  // Reset the flag
-    Wire.beginTransmission(0x70);
-    Wire.write(0x01);
-    Wire.endTransmission();
-    digitalWrite(TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
-    //digitalWrite(INTERNAL_TRIGGER_PIN, LOW); // Set pin 12 back to LOW after sending bytes
-    //digitalWrite(LED_PIN, LOW); // Turn off the LED
-  byte error = Wire.endTransmission();
-
-if (error == 0) {
-  Serial.println("I2C transmission successful");
-} else {
-  Serial.println("I2C transmission failed");
-  Serial.println(error);
 }
-
-  }
-}
-
-
-
 void triggerMaster() {
   //Wire.begin(ARDUINO_SLAVE_ADDR);
   Serial.println("Triggering com with remote");
-  digitalWrite(TRIGGER, LOW);
+  digitalWrite(TRIGGER_PIN, LOW);
   delay(remoteTiming);  // Trigger duration: 5ms
-  digitalWrite(TRIGGER, HIGH);
+  digitalWrite(TRIGGER_PIN, HIGH);
 }
-
 void reset_mux() {
   Serial.println("resetting MUX");
   digitalWrite(mux_reset, LOW);
@@ -550,7 +495,6 @@ void reset_mux() {
   digitalWrite(mux_reset, HIGH);
   delay(5);
 }
-
 void reset_rf4ce() {
   Serial.println("Resetting all remotes");
   digitalWrite(rf4ce_reset, LOW);
@@ -558,10 +502,7 @@ void reset_rf4ce() {
   digitalWrite(rf4ce_reset, HIGH);
   delay(5);
 }
-void triggerSend() {
-  // This function will be run whenever pin 2 goes from HIGH to LOW
-  sendBytes = true;
-}
+
 void selectDefaultBus() {
   Wire.beginTransmission(MUX_ADR);  // Begins a transmission to the I2C slave (MUX) with the given address
   Wire.write(1 << MUX_BUS);        // Sends one byte to the I2C slave
@@ -573,20 +514,21 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   Serial.println(pcaAddress, HEX);
   Serial.print("port: ");
   Serial.println(port);
-  //Wire.begin();
-  setup();
+  Wire.end();
+  delay(10);
+  Wire.begin();
   Wire.beginTransmission(pcaAddress);
   Wire.write(1 << port);  // Set the bit for the desired port
   Wire.endTransmission();
-
+  Wire.end();
   activePort = port;  // Update the active port
   Serial.print("active port: ");
   Serial.println(activePort);
   // Delay to allow the PCA9546A to switch to the selected port
   delay(10);
   //triggerMaster();
+  Wire.begin(ARDUINO_SLAVE_ADDR);
 }
-
 void sendrelease() {
   if (holdButton == 1) {
     delay(1700);
@@ -595,7 +537,6 @@ void sendrelease() {
     delay(5000);
     longholdButton = 0;
   }
-
   delay(90);
   needRelease = 0;
   if (debug) {
@@ -607,7 +548,6 @@ void sendrelease() {
   delay(KEY_RELEASE_TIME);
   triggerMaster();
 }
-
 void receiveEvent(int byteCount) {
   if (debug) {
     Serial.println("receive event");
@@ -621,7 +561,6 @@ void receiveEvent(int byteCount) {
   while (0 < Wire.available())  // loop through all but the last
   {
     byteRead = Wire.read();
-
     if (byteCount == 0) {
       readMode = byteRead;
       command = byteRead;
@@ -656,14 +595,12 @@ void receiveEvent(int byteCount) {
       Serial.println(receivedValue);
     }
   }
-
   if (command == 2) {  //command from microcontroller to clear keypress interrupt
     if (debug) {
       Serial.println("clear interrupt");
     }
     byteRead = Wire.read();  //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
     Wire.write(0x00);        //  0x00 for response back to microcontroller
-
     // Send the variables set earlier to the correct registers
     Wire.write(CFG_REG);
     Wire.write(INT_REG);
@@ -684,16 +621,13 @@ void receiveEvent(int byteCount) {
     return;
   }
 }
-
 void requestEvent() {
-
   if (debug) {
     //selectPort(pcaAddress, port);
     Serial.println("void requestEvent()");}
     Wire.write(MUX_ADR);
     Wire.write(MUX_BUS);
     Wire.write((byte*) &receivedValue, sizeof(receivedValue));
-
   if (readMode == 1) {
     
     Wire.write(CFG_REG);
@@ -729,7 +663,6 @@ void requestEvent() {
     Serial.flush();
   }
 }
-
 void realTouch() {
   //reset_mux();
   //reset_rf4ce();
