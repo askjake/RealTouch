@@ -21,6 +21,8 @@ String KEY_RELEASE_TIME_str;
 volatile int KEY_RELEASE_TIME = 20;
 volatile byte readMode = 0;
 volatile int receivedValue = 0;
+volatile bool sendBytes = false;
+
 
 String BUTTON;
 String command;
@@ -56,10 +58,12 @@ void setup() {
   Serial.println("I2C Slave Initialized");
   reset_mux();
   reset_rf4ce();
-
+  
   INT_REG = 0x01;
   EVT_REG = 0x01;
   selectDefaultBus();  // Select default bus on startup
+  pinMode(2, INPUT_PULLUP); // Set up pin 2 as an input with a pull-up resistor
+  attachInterrupt(digitalPinToInterrupt(2), triggerSend, FALLING);  // Run triggerSend() whenever pin 2 goes from HIGH to LOW
 
 }
 void loop() {
@@ -490,6 +494,15 @@ void loop() {
     delay(10);
     remoteCommandEntered = false;
   }
+  if (sendBytes) {
+      Serial.print("sending: ");
+  Serial.println("mmmuuuxxx");
+
+    sendBytes = false;  // Reset the flag
+    Wire.beginTransmission(0x70);
+    Wire.write(0x01);
+    Wire.endTransmission();
+  }
 }
 
 
@@ -517,7 +530,10 @@ void reset_rf4ce() {
   digitalWrite(rf4ce_reset, HIGH);
   delay(5);
 }
-
+void triggerSend() {
+  // This function will be run whenever pin 2 goes from HIGH to LOW
+  sendBytes = true;
+}
 void selectDefaultBus() {
   Wire.beginTransmission(MUX_ADR);  // Begins a transmission to the I2C slave (MUX) with the given address
   Wire.write(1 << MUX_BUS);        // Sends one byte to the I2C slave
