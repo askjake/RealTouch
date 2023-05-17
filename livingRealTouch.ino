@@ -68,7 +68,7 @@ void setup() {
 pinMode(TRIGGER_PIN, OUTPUT); // Set up pin 12 as an output
   digitalWrite(TRIGGER_PIN, LOW); // Start with pin 12 LOW
 delay(15);
-  digitalWrite(TRIGGER_PIN, HIGJH); // Start with pin 12 LOW
+  digitalWrite(TRIGGER_PIN, HIGH); // Start with pin 12 LOW
 
   attachInterrupt(digitalPinToInterrupt(TRIGGER_PIN), triggerSend, RISING);  // Run triggerSend() whenever pin 12 goes from LOW to HIGH
 }
