@@ -604,14 +604,14 @@ void receiveEvent(int howMany){
 if (byteCursor == 0) {
       readMode = byteRead;
       command = byteRead;
-      Serial.print("read mode line 607");
+      Serial.print("read mode line 607  ");
       Serial.println(readMode);
       Serial.print("COMMAND I GOT: ");
       Serial.println(command);      
     } else {
       receivedByte = byteRead;
       Serial.print("got more than a command: ");
-      receivedValues[byteCursor] = receivedByte;
+      receivedValues[byteCursor -1] = receivedByte;
       Serial.print("receivedByte: ");
       Serial.println(receivedByte);
       
@@ -630,6 +630,8 @@ if (byteCursor == 0) {
   Serial.print("receivedValue   "  );
   Serial.println(receivedValue);
     }
+
+    //byteCursor++;
     howMany--;
           Serial.println("line 632");
   Serial.print("byte byteCursor  "  );
