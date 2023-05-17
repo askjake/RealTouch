@@ -1,6 +1,9 @@
 #include <Wire.h>
 #include <math.h>
 
+uint8_t MUX_ADR = 0x70; // Replace with your actual I2C address
+uint8_t MUX_BUS = 0x04; // Replace with your actual bus number
+
 #define MUX_1 0x70
 #define MUX_2 0x72
 #define MUX_3 0x74
@@ -636,6 +639,8 @@ void requestEvent() {
     Serial.println("void requestEvent()");}
     Wire.write(MUX_ADR);
     Wire.write(MUX_BUS);
+    Wire.write((byte*) &receivedValue, sizeof(receivedValue));
+
   if (readMode == 1) {
     
     Wire.write(CFG_REG);
