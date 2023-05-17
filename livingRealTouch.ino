@@ -515,6 +515,8 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   Serial.print("port: ");
   Serial.println(port);
   Wire.end();
+  reset_mux();
+  reset_rf4ce();
   delay(10);
   Wire.begin();
   Wire.beginTransmission(pcaAddress);
@@ -528,6 +530,7 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   delay(10);
   //triggerMaster();
   Wire.begin(ARDUINO_SLAVE_ADDR);
+  Serial.print(ARDUINO_SLAVE_ADDR);
 }
 void sendrelease() {
   if (holdButton == 1) {
@@ -548,8 +551,56 @@ void sendrelease() {
   delay(KEY_RELEASE_TIME);
   triggerMaster();
 }
+
+void requestEvent() {
+  if (debug) {
+    //selectPort(pcaAddress, port);
+    Serial.println("void requestEvent()");}
+    Wire.write(MUX_ADR);
+    Wire.write(MUX_BUS);
+    Wire.write((byte*) &receivedValue, sizeof(receivedValue));
+  if (readMode == 1) {
+    
+    Wire.write(CFG_REG);
+    Serial.println(CFG_REG);
+    Wire.write(INT_REG);
+    Serial.println(INT_REG);
+    Wire.write(EVT_REG);
+    Serial.println(EVT_REG);
+    Wire.write(KEY_CMD);
+    Serial.println(KEY_CMD);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Serial.println("COMMAND SENT");
+    if (debug) {
+      Serial.println(KEY_CMD);
+    }
+    delay(100);  // Adjust the delay if needed
+  } else if (readMode == 128) {
+    Serial.print("read mode: ");
+    Serial.println(readMode);
+  } else {
+    if (debug) {
+      Serial.println("GOT DIFFERENT READ MODE");
+    }
+    if (debug) {
+    Serial.print("read mode: ");
+    Serial.println(readMode);
+    }
+    Serial.flush();
+  }
+}
+
 void receiveEvent(int byteCount) {
   if (debug) {
+        Serial.print("read mode: ");
+    Serial.println(readMode);
     Serial.println("receive event");
   }
   byte byteCursor = 0;
@@ -602,7 +653,7 @@ void receiveEvent(int byteCount) {
     byteRead = Wire.read();  //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
     Wire.write(0x00);        //  0x00 for response back to microcontroller
     // Send the variables set earlier to the correct registers
-    Wire.write(CFG_REG);
+    /*Wire.write(CFG_REG);
     Wire.write(INT_REG);
     Wire.write(EVT_REG);
     Wire.write(KEY_CMD);
@@ -613,54 +664,12 @@ void receiveEvent(int byteCount) {
     Wire.write(BLANK);
     Wire.write(BLANK);
     Wire.write(BLANK);
-    Wire.write(BLANK);
+    Wire.write(BLANK);*/
     // Trigger the master
     triggerMaster();
     return;
   } else {
     return;
-  }
-}
-void requestEvent() {
-  if (debug) {
-    //selectPort(pcaAddress, port);
-    Serial.println("void requestEvent()");}
-    Wire.write(MUX_ADR);
-    Wire.write(MUX_BUS);
-    Wire.write((byte*) &receivedValue, sizeof(receivedValue));
-  if (readMode == 1) {
-    
-    Wire.write(CFG_REG);
-    Serial.println(CFG_REG);
-    Wire.write(INT_REG);
-    Serial.println(INT_REG);
-    Wire.write(EVT_REG);
-    Serial.println(EVT_REG);
-    Wire.write(KEY_CMD);
-    Serial.println(KEY_CMD);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Wire.write(BLANK);
-    Serial.println("COMMAND SENT");
-    if (debug) {
-      Serial.println(KEY_CMD);
-    }
-    delay(100);  // Adjust the delay if needed
-  } else if (readMode == 128) {
-    Serial.println("GOT 0x80/n");
-  } else {
-    if (debug) {
-      Serial.println("GOT DIFFERENT READ MODE");
-    }
-    if (debug) {
-      Serial.println(readMode);
-    }
-    Serial.flush();
   }
 }
 void realTouch() {
