@@ -2,7 +2,7 @@
 #include <math.h>
 
 uint8_t MUX_ADR = 0x70; // Replace with your actual I2C address
-uint8_t MUX_BUS = 0x04; // Replace with your actual bus number
+uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
 
 #define MUX_1 0x70
 #define MUX_2 0x72
@@ -59,6 +59,8 @@ void setup() {
 
   INT_REG = 0x01;
   EVT_REG = 0x01;
+  selectDefaultBus();  // Select default bus on startup
+
 }
 void loop() {
 
@@ -514,6 +516,12 @@ void reset_rf4ce() {
   delay(10);
   digitalWrite(rf4ce_reset, HIGH);
   delay(5);
+}
+
+void selectDefaultBus() {
+  Wire.beginTransmission(MUX_ADR);  // Begins a transmission to the I2C slave (MUX) with the given address
+  Wire.write(1 << MUX_BUS);        // Sends one byte to the I2C slave
+  Wire.endTransmission();          // Ends a transmission to a slave device 
 }
 
 void selectPort(uint8_t pcaAddress, uint8_t port) {
