@@ -15,7 +15,7 @@ uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
 uint8_t activePort = 0;
 int remote;
 /////////////////////////////////////
-const int remoteTiming = 5;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
+const int remoteTiming = 2;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
 volatile int KEY_RELEASE_TIME = 20;
 volatile byte readMode = 0;
 volatile int receivedValue = 0;
@@ -28,12 +28,12 @@ boolean needRelease;
 boolean holdButton = 0;
 boolean longholdButton = 0;
 boolean debug = 1;  //debug mode
-boolean initFlag = 1;     // Flag triggers update to CFG_REG initalization string on powerup / reset
+boolean initFlag = 0;     // Flag triggers update to CFG_REG initalization string on powerup / reset
 byte location;
 
 // REGISTER VALUES
 byte BLANK = 0x00;
-byte CFG_REG;
+byte CFG_REG = 0xA7;
 byte INT_REG = 0x00;
 byte EVT_REG = 0x00;
 /////////////////////////////////////
@@ -493,16 +493,16 @@ void triggerMaster() {
 void reset_mux() {
   Serial.println("resetting MUX");
   digitalWrite(mux_reset, LOW);
-  delay(10);
+  delay(1);
   digitalWrite(mux_reset, HIGH);
-  delay(5);
+  delay(0);
 }
 void reset_rf4ce() {
   Serial.println("Resetting all remotes");
   digitalWrite(rf4ce_reset, LOW);
-  delay(10);
+  delay(1);
   digitalWrite(rf4ce_reset, HIGH);
-  delay(5);
+  delay(0);
 }
 
 void selectDefaultBus() {
@@ -557,23 +557,23 @@ void sendrelease() {
 void requestEvent(){
   if(readMode == 1) {
 
-    Wire.write(CFG_REG);
-    Wire.write(INT_REG);
-    Wire.write(EVT_REG);
-    Wire.write(KEY_CMD);
-    Wire.write(BLANK);
-    Wire.write(BLANK);    
-    Wire.write(BLANK);
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);
+    Wire.write(CFG_REG); // 1
+    Wire.write(INT_REG); // 2
+    Wire.write(EVT_REG); // 3
+    Wire.write(KEY_CMD); // 4
+    Wire.write(BLANK);   //5
+    Wire.write(BLANK);    //6
+    Wire.write(BLANK);   // 7
+    Wire.write(BLANK);      //  8
+    Wire.write(BLANK);        //9
+    Wire.write(BLANK);        //10
+    Wire.write(BLANK);        //11
+    Wire.write(BLANK);        //12
+    Wire.write(BLANK);        //13
+    Wire.write(BLANK);//14
     Serial.println("COMMAND SENT"); 
     if (debug){Serial.println(KEY_CMD);}
-    //delay(100);  //was 100
+    delay(100);  //was 100
     }
   else if(readMode == 128) {
     Serial.println("GOT 0x80/n"); 
@@ -588,98 +588,78 @@ void requestEvent(){
   //delay(100);
 }
 
-void receiveEvent(int howMany){
-  if (debug){Serial.println("receive event");}
-  //byte byteCount = 0;
+void receiveEvent(){
+  if (debug) {
+    Serial.println("receive event");
+  }
+
   byte byteCursor = 0;
   byte receivedValues[45];
   byte receivedByte = 0;
   byte command = 0;
   byte byteRead = 0;
   receivedValue = 0;
-  while (howMany > 0)  // loop through all but the last
-  {
+
+  while (Wire.available()) {
     byteRead = Wire.read();
     
-if (byteCursor == 0) {
+    if (byteCursor == 0) {
       readMode = byteRead;
       command = byteRead;
-      Serial.print("read mode line 607  ");
+      Serial.print("read mode line 607");
       Serial.println(readMode);
       Serial.print("COMMAND I GOT: ");
-      Serial.println(command);      
+      Serial.println(command);
     } else {
       receivedByte = byteRead;
       Serial.print("got more than a command: ");
-      receivedValues[byteCursor -1] = receivedByte;
+      receivedValues[byteCursor] = receivedByte;
       Serial.print("receivedByte: ");
       Serial.println(receivedByte);
-      
-      byteCursor++;
-      Serial.println("line 617");
-  Serial.print(" byteCursor   "  );
-  Serial.println(byteCursor);
-  //Serial.print("byte receivedValues[45];  "  );
-  //Serial.println(receivedValues);
-  Serial.print(" receivedByte  "  );
-  Serial.println(receivedByte);
-  Serial.print(" command  "  );
-  Serial.println(command);
-  Serial.print(" byteRead  "  );
-  Serial.println(byteRead);
-  Serial.print("receivedValue   "  );
-  Serial.println(receivedValue);
     }
-
-    //byteCursor++;
-    howMany--;
-          Serial.println("line 632");
-  Serial.print("byte byteCursor  "  );
-  Serial.println(byteCursor);
-  //Serial.print("byte receivedValues[45];  "  );
- // Serial.println(receivedValues);
-  Serial.print(" receivedByte  "  );
-  Serial.println(receivedByte);
-  Serial.print(" command   "  );
-  Serial.println(command);
-  Serial.print(" byteRead   "  );
-  Serial.println(byteRead);
-  Serial.print("receivedValue   "  );
-  Serial.println(receivedValue);
-  }
-  for(byte otherByteCursor = byteCursor; otherByteCursor>0; otherByteCursor--) {
-    //receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, byteCursor-1)  ;
-    receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, otherByteCursor-1);
-
-    //Serial.println("qoot: ");
-    if (debug){Serial.print(byteCursor-1);}
-    if (debug){Serial.print(":");}
-    if (debug){Serial.println(receivedValue);}
+    byteCursor++;
+    Serial.println("line 617");
+    Serial.print(" byteCursor: "  );
+    Serial.println(byteCursor);
+    Serial.print(" receivedByte: "  );
+    Serial.println(receivedByte);
+    Serial.print(" command: "  );
+    Serial.println(command);
+    Serial.print(" byteRead: "  );
+    Serial.println(byteRead);
+    Serial.print("receivedValue: "  );
+    Serial.println(receivedValue);
   }
 
+  for (byte otherByteCursor = byteCursor; otherByteCursor > 1; otherByteCursor--) {
+    receivedValue += receivedValues[otherByteCursor - 2] * pow(256, otherByteCursor - 2);
+    if (debug) {
+      Serial.print(otherByteCursor - 2);
+      Serial.print(":");
+      Serial.println(receivedValue);
+    }
+  }
 
-  if(command == 1) { 
-    if (debug){Serial.println("COMMAND 1 RECEIVED");}
-    if (initFlag){      // allows setting of initFlag once during remote boot  
-      CFG_REG = receivedByte;
+  if (command == 1) { 
+    if (debug) {
+      Serial.println("COMMAND 1 RECEIVED");
+    }
+    if (initFlag) {
+      CFG_REG = receivedValues[0];
       initFlag = 0;
-      }  
+    }  
     return;
   } 
 
-
-  if(command == 2) { //command from microcontroller to clear keypress interrupt
-    if (debug){Serial.println("COMMAND 2 RECEIVED");}
-    if (debug){Serial.println("clear interrupt");}
-    //delay(200);
-    byteRead = Wire.read();   //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
+  if (command == 2) {
+    if (debug) {
+      Serial.println("COMMAND 2 RECEIVED");
+      Serial.println("clear interrupt");
+    }
+    byteRead = Wire.read();
     Serial.print("byteread: ");
     Serial.println(byteRead);
-    Wire.write(0xFF);    //  0x00 for response back to microcontroller
-    //Serial.flush();
-   return;
- 
-  }  else { 
-   return;
+    Wire.write(0x00);
+    return;
   }
 }
