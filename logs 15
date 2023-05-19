@@ -1,0 +1,31 @@
+name	type	start_time	duration	ack	address	read	data
+I2C	stop	10.4002232	2.50000001e-07				
+I2C	start	10.4003075	2.49999999e-07				
+I2C	address	10.40031	2.325e-05	true	0x34	false	
+I2C	data	10.4004143	2.55e-05	true			0x02
+I2C	data	10.4005208	2.525e-05	true			0xFF
+I2C	start	10.400628	2.50000001e-07				
+I2C	address	10.4006305	0.01192325	true	0x34	true	
+I2C	data	10.42069	2.075e-05	false			0xFF
+I2C	stop	10.4207135	2.50000001e-07				
+I2C	start	10.4208898	2.49999999e-07				
+I2C	address	10.4208922	2.1e-05	false	0x7F	true	
+I2C	start	10.4209968	2.49999999e-07				
+I2C	address	10.4209995	2.075e-05	false	0x7F	true	
+I2C	stop	10.421023	2.50000001e-07				
+I2C	start	10.4211073	2.49999999e-07				
+I2C	address	10.4211097	2.325e-05	true	0x34	false	
+I2C	data	10.4212143	2.5e-05	true			0x01
+I2C	start	10.4213213	2.49999999e-07				
+I2C	address	10.421324	0.00052625	true	0x34	true	
+I2C	data	10.4221373	2.075e-05	true			0xAF
+I2C	data	10.4222415	2.1e-05	true			0x01
+I2C	data	10.4223485	2.1e-05	true			0x01
+I2C	data	10.4224555	2.1e-05	true			0x36
+I2C	data	10.422563	2.1e-05	true			0x00
+I2C	data	10.42267	2.1e-05	true			0x00
+I2C	data	10.422777	2.1e-05	true			0x00
+I2C	data	10.422884	2.1e-05	true			0x00
+I2C	data	10.4229915	2.1e-05	true			0x00
+I2C	data	10.4230985	2.1e-05	true			0x00
+I2C	data	10.4232055	2.1e-05	true			0x00
