@@ -1,8 +1,8 @@
 #include <Wire.h>
 #include <math.h>
 
-uint8_t MUX_ADR = 0x70; // Replace with your actual I2C address
-uint8_t MUX_BUS = 0x01; // Replace with your actual bus number
+uint8_t MUX_ADR = 0x70;  // Replace with your actual I2C address
+uint8_t MUX_BUS = 0x01;  // Replace with your actual bus number
 
 #define MUX_1 0x70
 #define MUX_2 0x72
@@ -16,7 +16,7 @@ uint8_t activePort = 0;
 int remote;
 /////////////////////////////////////
 const int remoteTiming = 5;  //  1 FOR 54.1 REMOTES / 5 FOR 54.3 REMOTES
-volatile int KEY_RELEASE_TIME = 20;
+volatile int KEY_RELEASE_TIME = 30;
 volatile byte readMode = 0;
 volatile int receivedValue = 0;
 String BUTTON;
@@ -27,13 +27,13 @@ byte KEY_RELEASE;
 boolean needRelease;
 boolean holdButton = 0;
 boolean longholdButton = 0;
-boolean debug = 1;  //debug mode
-boolean initFlag = 0;     // Flag triggers update to CFG_REG initalization string on powerup / reset
+int debug = 1;     //debug mode
+boolean initFlag = 1;  // Flag triggers update to CFG_REG initalization string on powerup / reset
 byte location;
 byte CFG_REG;
 
 
-int small_delay = 5;
+int small_delay = 500;  //for between functions
 int big_delay = 1000;
 
 
@@ -54,30 +54,30 @@ void setup() {
   pinMode(mux_reset, OUTPUT);
   pinMode(rf4ce_reset, OUTPUT);
   digitalWrite(TRIGGER_PIN, HIGH);  // Set the trigger pin HIGH initially
-    delay(500);  
-digitalWrite(TRIGGER_PIN, LOW); //// grab the init 
-  delay(15);    
-  digitalWrite(TRIGGER_PIN, HIGH); 
-  delay(500);  
+  delay(600);
+  digitalWrite(TRIGGER_PIN, LOW);  //// grab the init
+  delay(15);
+  digitalWrite(TRIGGER_PIN, HIGH);
+  delay(500);
 
 
   Serial.begin(115200);
-  while (!Serial);
+  while (!Serial)
+    ;
   Serial.println("I2C Slave Initialized");
   reset_mux();
-    delay(100);  
+  //delay(100);
   reset_rf4ce();
 
   INT_REG = 0x01;
   EVT_REG = 0x01;
   selectPort(MUX_1, 0);  // Select default bus on startup
-
 }
 void loop() {
-   if (needRelease == 1){
-	  delay(0);
-      sendrelease();
-   }
+  if (needRelease == 1) {
+    //delay(small_delay);
+    sendrelease();
+  }
   // Check if there is any input available
   if (Serial.available() > 0) {
     String inputString = Serial.readStringUntil('\n');  // read the incoming string
@@ -260,37 +260,37 @@ void loop() {
       needRelease = 1;
       holdButton = 1;
       triggerMaster();
-    } else if (inputString == "up") {  // UP
+    } else if (inputString == "up" || inputString == "R") {  // UP
       KEY_CMD = 0x96;
       KEY_RELEASE = 0x16;
       BUTTON = "Up";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "down") {  //DOWN
+    } else if (inputString == "down" || inputString == "s") {  //DOWN
       KEY_CMD = 0xA3;
       KEY_RELEASE = 0x23;
       BUTTON = "Down";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "left") {  // LEFT
+    } else if (inputString == "left" || inputString == "t") {  // LEFT
       KEY_CMD = 0x98;
       KEY_RELEASE = 0x18;
       BUTTON = "Left";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "right") {  // RIGHT
+    } else if (inputString == "right" || inputString == "u") {  // RIGHT
       KEY_CMD = 0x9A;
       KEY_RELEASE = 0x1A;
       BUTTON = "Right";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "select") {  // SELECT
+    } else if (inputString == "select" || inputString == "v") {  // SELECT
       KEY_CMD = 0x99;
       KEY_RELEASE = 0x19;
       BUTTON = "Select";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "options") {  // OPTIONS
+    } else if (inputString == "options" || inputString == "w") {  // OPTIONS
       KEY_CMD = 0x95;
       KEY_RELEASE = 0x15;
       BUTTON = "Options";
@@ -309,19 +309,19 @@ void loop() {
       BUTTON = "DVR";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "home") {  // HOME
+    } else if (inputString == "home" || inputString == "z") {  // HOME
       KEY_CMD = 0x8C;
       KEY_RELEASE = 0x0C;
       BUTTON = "Home";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "guide") {  // guide
+    } else if (inputString == "guide" || inputString == "a") {  // guide
       KEY_CMD = 0x83;
       KEY_RELEASE = 0x03;
       BUTTON = "Guide";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "sat") {
+    } else if (inputString == "sat" || inputString == "b") {
       KEY_CMD = 0xEF;
       KEY_RELEASE = 0x6F;
       BUTTON = "SAT";
@@ -351,7 +351,7 @@ void loop() {
       BUTTON = "Power";
       needRelease = 1;
       triggerMaster();
-    } else if (inputString == "unpair") {  //UNPAIR REMOTE
+    } else if (inputString == "unpair" || inputString == "v") {  //UNPAIR REMOTE
       KEY_CMD = 0xEF;                      //SAT button
       KEY_RELEASE = 0x6F;
       BUTTON = "SAT";
@@ -387,16 +387,20 @@ void loop() {
     } else if (inputString == "debug") {
       debug = 1;
       Serial.println("debug ON");
-    } else if (inputString == "debug_off") {  //
+    } else if (inputString == "debug off") {  //
       debug = 0;
       Serial.println("debug OFF");
-    }  
+    }
+     else if (inputString == "debug hard") {  //
+      debug = 2;
+      Serial.println("debug hard");
+    }
   }
   if (remoteCommandEntered) {
-    
+        //Wire.begin();
     // Determine the appropriate remote address based on the remote number
-    uint8_t pcaAddress = MUX_1; // intitialize default mux
-    uint8_t port = 0;  // Initialize port to 0
+    uint8_t pcaAddress = MUX_1;  // intitialize default mux
+    uint8_t port = 0;            // Initialize port to 0
     switch (remote) {
       case 1:
         remote = 1;
@@ -500,12 +504,13 @@ void loop() {
     }
     selectPort(pcaAddress, port);
     delay(10);
+    //Wire.end();
     remoteCommandEntered = false;
   }
 }
 void triggerMaster() {
   //Wire.begin(ARDUINO_SLAVE_ADDR);
-  Serial.println("Triggering com with remote");
+  if (debug == 1) { Serial.println("Triggering com with remote");}
   digitalWrite(TRIGGER_PIN, LOW);
   delay(remoteTiming);  // Trigger duration: 5ms
   digitalWrite(TRIGGER_PIN, HIGH);
@@ -521,22 +526,16 @@ void reset_mux() {
 void reset_rf4ce() {
   Serial.println("Resetting all remotes");
   digitalWrite(rf4ce_reset, LOW);
-  delay(5);
-  digitalWrite(rf4ce_reset, HIGH);
   delay(small_delay);
-}
-
-void selectDefaultBus() {
-  Wire.beginTransmission(MUX_ADR);  // Begins a transmission to the I2C slave (MUX) with the given address
-  Wire.write(1 << MUX_BUS);        // Sends one byte to the I2C slave
-  Wire.endTransmission();          // Ends a transmission to a slave device 
+  digitalWrite(rf4ce_reset, HIGH);
+  //delay(small_delay);
 }
 
 void selectPort(uint8_t pcaAddress, uint8_t port) {
-  Serial.print("MUX address: ");
+  if (debug == 1) { Serial.print("MUX address: ");
   Serial.print(pcaAddress, HEX);
   Serial.print("   port: ");
-  Serial.println(port);
+  Serial.println(port);}
   Wire.end();
   initFlag = 1;
   reset_mux();
@@ -548,74 +547,67 @@ void selectPort(uint8_t pcaAddress, uint8_t port) {
   Wire.endTransmission();
   Wire.end();
   activePort = port;  // Update the active port
-  Serial.print("active port: ");
-  Serial.println(activePort);
+  if (debug == 1) { Serial.print("active port: ");
+  Serial.println(activePort);}
   // Delay to allow the PCA9546A to switch to the selected port
   delay(10);
   //triggerMaster();
   Wire.begin(ARDUINO_SLAVE_ADDR);
-  delay(100);
+  delay(10);
 
-  //Serial.print(ARDUINO_SLAVE_ADDR);
 }
 void sendrelease() {
   if (holdButton == 1) {
-    delay(1700);
+    delay(1500);
     holdButton = 0;
   } else if (longholdButton == 1) {
-    delay(5000);
+    delay(4000);
     longholdButton = 0;
   }
-  delay(90);
+  //delay(small_delay);
   needRelease = 0;
-  if (debug) {Serial.println("Sending release"); }
+  if (debug == 1) { Serial.println("Sending release"); }
   KEY_CMD = KEY_RELEASE;
-  Serial.print("Key release time: ");
-  Serial.println(KEY_RELEASE_TIME);
+  if (debug == 1) { Serial.print("Key release time: ");
+  Serial.println(KEY_RELEASE_TIME);}
   delay(KEY_RELEASE_TIME);
   triggerMaster();
 }
 
-void requestEvent(){
-  if(readMode == 1) {
+void requestEvent() {
+  if (readMode == 1) {
 
     Wire.write(CFG_REG);
-    Wire.read();    
     Wire.write(INT_REG);
-    Wire.read();    
     Wire.write(EVT_REG);
-    Wire.read();    
     Wire.write(KEY_CMD);
-    Wire.read();    
     Wire.write(BLANK);
-    Wire.write(BLANK);    
     Wire.write(BLANK);
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
-    Wire.write(BLANK);        
     Wire.write(BLANK);
-    Serial.print("COMMAND SENT  "); 
-    if (debug){Serial.println(KEY_CMD);}
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    Wire.write(BLANK);
+    if (debug == 1) { Serial.print("COMMAND SENT  ");}
+    if (debug == 1) { Serial.println(BUTTON); }
     //delay(100);  //was 100
-    }
-  else if(readMode == 128) {
-    Serial.println("GOT 0x80"); 
-    }  
-  else {
-    if (debug){Serial.print("GOT DIFFERENT READ MODE  "); }
-    if (debug){Serial.println(readMode); }
-    //
+  } else if (readMode == 128) {
+    if (debug==2) { Serial.println("GOT 0x80");}
+  } else {
+    if (debug==2) { Serial.print("GOT DIFFERENT READ MODE  "); }
+    if (debug==2) { Serial.println(readMode); }
+    
     Serial.flush();
-    }  
-   return;
+  }
+  return;
   //delay(100);
 }
 
-void receiveEvent(){
-  if (debug){Serial.println("receive event");}
+void receiveEvent(int howMany) {
+  if (debug==2) { Serial.println("receive event"); }
   byte byteCount = 0;
   byte byteCursor = 0;
   byte receivedValues[45];
@@ -623,56 +615,57 @@ void receiveEvent(){
   byte command = 0;
   byte byteRead = 0;
   receivedValue = 0;
-  while(0 < Wire.available()) // loop through all but the last
+  while (0 < Wire.available())  // loop through all but the last
   {
     byteRead = Wire.read();
-    
-    if(byteCount ==0) {
+
+    if (byteCount == 0) {
       readMode = byteRead;
       command = byteRead;
-      if (debug){Serial.print("COMMAND I GOT: ");}
-      if (debug){Serial.println(command);}      
+      if (debug==2) { Serial.print("COMMAND I GOT: "); }
+      if (debug==2) { Serial.println(command); }
     } else {
       receivedByte = byteRead;
-      if (debug){Serial.print("got more than a command: ");}
+      if (debug==2) { Serial.print("got more than a command: "); }
       receivedValues[byteCursor] = receivedByte;
-      if (debug){Serial.println(receivedByte);}
+      if (debug==2) { Serial.println(receivedByte); }
       byteCursor++;
     }
     byteCount++;
-    
   }
-  for(byte otherByteCursor = byteCursor; otherByteCursor>0; otherByteCursor--) {
-    receivedValue = receivedValue + receivedValues[otherByteCursor-1] * pow(256, byteCursor-1)  ;
+  for (byte otherByteCursor = byteCursor; otherByteCursor > 0; otherByteCursor--) {
+    receivedValue = receivedValue + receivedValues[otherByteCursor - 1] * pow(256, byteCursor - 1);
     //Serial.println("qoot: ");
-    if (debug){Serial.print(byteCursor-1);}
-    if (debug){Serial.print(":");}
-    if (debug){Serial.println(receivedValue);}
+    if (debug==2) { Serial.print(byteCursor - 1); }
+    if (debug==2) { Serial.print(":"); }
+    if (debug==2) { Serial.println(receivedValue); }
   }
 
 
-  if(command == 1) { 
-    if (debug){Serial.println("COMMAND 1 RECEIVED");}
-    if (initFlag){      // allows setting of initFlag once during remote boot  
+  if (command == 1) {
+    if (debug==2) { Serial.println("COMMAND 1 RECEIVED"); }
+    if (initFlag) {  // allows setting of initFlag once during remote boot
       CFG_REG = receivedByte;
       initFlag = 0;
-      }  
+    }
     return;
-  } 
+  }
 
 
-  if(command == 2) { //command from microcontroller to clear keypress interrupt
-    if (debug){Serial.println("COMMAND 2 RECEIVED");}
-    if (debug){Serial.println("clear interrupt");}
+  if (command == 2) {  //command from microcontroller to clear keypress interrupt
+    if (debug==2) { Serial.println("COMMAND 2 RECEIVED"); }
+    if (debug==2) { Serial.println("clear interrupt"); }
     //delay(200);
-    byteRead = Wire.read();   //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
-    Serial.print(" //read one byte  / 0xFF for 54.3 / 0x00 for 54.1   ");
-    Serial.println(byteRead);
-    Wire.write(0xFF);    //  0x00 for response back to microcontroller
-    //Serial.flush();
-   return;
- 
-  }  else { 
-   return;
+    byteRead = Wire.read();  //read one byte  / 0xFF for 54.3 / 0x00 for 54.1
+    if (debug==2) { Serial.print(" //read one byte  / 0xFF for 54.3 / 0x00 for 54.1   ");
+    Serial.println(byteRead);}
+    Wire.write(0x00);  //  0x00 for response back to microcontroller
+        Wire.write(INT_REG);
+
+                       //Serial.flush();
+    return;
+
+  } else {
+    return;
   }
 }
