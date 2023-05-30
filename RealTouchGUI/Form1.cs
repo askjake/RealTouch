@@ -65,15 +65,16 @@ namespace RealTouchGUI
             string error = process.StandardError.ReadToEnd();
 
             process.WaitForExit();
+            Form1 form = Application.OpenForms.OfType<Form1>().FirstOrDefault();
             // Print the output and error to the richTextBox
-    updateRichTextBox($"Output: {output}");
-    updateRichTextBox($"Error: {error}");
+                if (form != null)
+{
+        form.updateRichTextBox($"Output: {output}");
+        form.updateRichTextBox($"Error: {error}");
 
-    // If you want to see the command being run, you can print it like this:
-    updateRichTextBox($"Command: python {Path.Combine("c:\\Real_Touch\\RealTouch_GUI\\", "scripts", "sgs_remote.py")} {stb} {buttonValue}");
-
-
-        }
+        // If you want to see the command being run, you can print it like this:
+        form.updateRichTextBox($"Command: python {Path.Combine("c:\\Real_Touch\\RealTouch_GUI\\", "scripts", "sgs_remote.py")} {stb} {buttonValue}");
+    }
 
         private void button1_Click(object sender, EventArgs e)
         {
