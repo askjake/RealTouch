@@ -1,6 +1,6 @@
 namespace RealTouchGUI
 {
-    public static void updateRichTextBox(string text)
+    public  void updateRichTextBox(string text)
 {
     if (InvokeRequired)
     {
