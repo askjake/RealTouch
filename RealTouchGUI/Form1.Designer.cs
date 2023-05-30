@@ -1,14 +1,16 @@
+using System.Windows.Forms;
+
 namespace RealTouchGUI
 {
-    public  void updateRichTextBox(string text)
-{
-    if (InvokeRequired)
+    public void updateRichTextBox(string text)
     {
-        this.Invoke(new Action<string>(updateRichTextBox), new object[] { text });
-        return;
+        if (InvokeRequired)
+        {
+            this.Invoke(new Action<string>(updateRichTextBox), new object[] { text });
+            return;
+        }
+        richTextBox1.Text += text + "\n";
     }
-    richTextBox1.Text += text + "\n";
-}
 
     partial class Form1
     {
@@ -163,7 +165,6 @@ namespace RealTouchGUI
             pictureBox1.Size = new Size(277, 815);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click;
             // 
             // imageList1
             // 
@@ -179,7 +180,6 @@ namespace RealTouchGUI
             button2.TabIndex = 2;
             button2.Text = "2";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click_1;
             // 
             // button3
             // 
