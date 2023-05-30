@@ -65,12 +65,13 @@ namespace RealTouchGUI
             string error = process.StandardError.ReadToEnd();
 
             process.WaitForExit();
-            // Print the output and error to the console
-            Console.WriteLine($"Output: {output}");
-            Console.WriteLine($"Error: {error}");
+            // Print the output and error to the richTextBox
+    updateRichTextBox($"Output: {output}");
+    updateRichTextBox($"Error: {error}");
 
-            // If you want to see the command being run, you can print it like this:
-            //Arguments = $"{Path.Combine("c:\\Real_Touch\\RealTouch_GUI\\", "scripts", "sgs_remote.py")} -i {stbIP} -s {stbRID} {buttonValue}";
+    // If you want to see the command being run, you can print it like this:
+    updateRichTextBox($"Command: python {Path.Combine("c:\\Real_Touch\\RealTouch_GUI\\", "scripts", "sgs_remote.py")} {stb} {buttonValue}");
+
 
         }
 
