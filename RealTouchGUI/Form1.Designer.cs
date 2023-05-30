@@ -1,5 +1,15 @@
 namespace RealTouchGUI
 {
+    public static void updateRichTextBox(string text)
+{
+    if (InvokeRequired)
+    {
+        this.Invoke(new Action<string>(updateRichTextBox), new object[] { text });
+        return;
+    }
+    richTextBox1.Text += text + "\n";
+}
+
     partial class Form1
     {
         /// <summary>
