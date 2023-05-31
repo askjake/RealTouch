@@ -67,65 +67,49 @@ namespace RealTouchGUI
             button33 = new Button();
             textBox1 = new TextBox();
             textBox2 = new TextBox();
-            textBox3 = new TextBox();
             textBox4 = new TextBox();
-            textBox5 = new TextBox();
             textBox6 = new TextBox();
             textBox7 = new TextBox();
             textBox8 = new TextBox();
-            textBox9 = new TextBox();
             textBox10 = new TextBox();
             textBox11 = new TextBox();
             textBox12 = new TextBox();
-            textBox13 = new TextBox();
             textBox14 = new TextBox();
             textBox15 = new TextBox();
             textBox16 = new TextBox();
-            textBox17 = new TextBox();
             textBox18 = new TextBox();
             textBox19 = new TextBox();
             textBox20 = new TextBox();
-            textBox21 = new TextBox();
             textBox22 = new TextBox();
             textBox23 = new TextBox();
             textBox24 = new TextBox();
-            textBox25 = new TextBox();
             textBox26 = new TextBox();
             textBox27 = new TextBox();
             textBox28 = new TextBox();
-            textBox29 = new TextBox();
             textBox30 = new TextBox();
             textBox31 = new TextBox();
             textBox32 = new TextBox();
-            textBox33 = new TextBox();
             textBox34 = new TextBox();
             textBox35 = new TextBox();
             textBox36 = new TextBox();
-            textBox37 = new TextBox();
             textBox38 = new TextBox();
             textBox39 = new TextBox();
             textBox40 = new TextBox();
-            textBox41 = new TextBox();
             textBox42 = new TextBox();
             textBox43 = new TextBox();
             textBox44 = new TextBox();
-            textBox45 = new TextBox();
             textBox46 = new TextBox();
             textBox47 = new TextBox();
             textBox48 = new TextBox();
-            textBox49 = new TextBox();
             textBox50 = new TextBox();
             textBox51 = new TextBox();
             textBox52 = new TextBox();
-            textBox53 = new TextBox();
             textBox54 = new TextBox();
             textBox55 = new TextBox();
             textBox56 = new TextBox();
-            textBox57 = new TextBox();
             textBox58 = new TextBox();
             textBox59 = new TextBox();
             textBox60 = new TextBox();
-            textBox61 = new TextBox();
             textBox62 = new TextBox();
             textBox63 = new TextBox();
             textBox64 = new TextBox();
@@ -513,26 +497,12 @@ namespace RealTouchGUI
             textBox2.Size = new Size(100, 23);
             textBox2.TabIndex = 33;
             // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(698, 82);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(100, 23);
-            textBox3.TabIndex = 35;
-            // 
             // textBox4
             // 
             textBox4.Location = new Point(592, 82);
             textBox4.Name = "textBox4";
             textBox4.Size = new Size(100, 23);
             textBox4.TabIndex = 34;
-            // 
-            // textBox5
-            // 
-            textBox5.Location = new Point(698, 111);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(100, 23);
-            textBox5.TabIndex = 39;
             // 
             // textBox6
             // 
@@ -555,13 +525,6 @@ namespace RealTouchGUI
             textBox8.Size = new Size(100, 23);
             textBox8.TabIndex = 36;
             // 
-            // textBox9
-            // 
-            textBox9.Location = new Point(698, 140);
-            textBox9.Name = "textBox9";
-            textBox9.Size = new Size(100, 23);
-            textBox9.TabIndex = 43;
-            // 
             // textBox10
             // 
             textBox10.Location = new Point(592, 140);
@@ -582,13 +545,6 @@ namespace RealTouchGUI
             textBox12.Name = "textBox12";
             textBox12.Size = new Size(100, 23);
             textBox12.TabIndex = 40;
-            // 
-            // textBox13
-            // 
-            textBox13.Location = new Point(698, 169);
-            textBox13.Name = "textBox13";
-            textBox13.Size = new Size(100, 23);
-            textBox13.TabIndex = 47;
             // 
             // textBox14
             // 
@@ -611,13 +567,6 @@ namespace RealTouchGUI
             textBox16.Size = new Size(100, 23);
             textBox16.TabIndex = 44;
             // 
-            // textBox17
-            // 
-            textBox17.Location = new Point(698, 309);
-            textBox17.Name = "textBox17";
-            textBox17.Size = new Size(100, 23);
-            textBox17.TabIndex = 63;
-            // 
             // textBox18
             // 
             textBox18.Location = new Point(592, 309);
@@ -638,13 +587,6 @@ namespace RealTouchGUI
             textBox20.Name = "textBox20";
             textBox20.Size = new Size(100, 23);
             textBox20.TabIndex = 60;
-            // 
-            // textBox21
-            // 
-            textBox21.Location = new Point(698, 280);
-            textBox21.Name = "textBox21";
-            textBox21.Size = new Size(100, 23);
-            textBox21.TabIndex = 59;
             // 
             // textBox22
             // 
@@ -667,13 +609,6 @@ namespace RealTouchGUI
             textBox24.Size = new Size(100, 23);
             textBox24.TabIndex = 56;
             // 
-            // textBox25
-            // 
-            textBox25.Location = new Point(698, 251);
-            textBox25.Name = "textBox25";
-            textBox25.Size = new Size(100, 23);
-            textBox25.TabIndex = 55;
-            // 
             // textBox26
             // 
             textBox26.Location = new Point(592, 251);
@@ -694,13 +629,6 @@ namespace RealTouchGUI
             textBox28.Name = "textBox28";
             textBox28.Size = new Size(100, 23);
             textBox28.TabIndex = 52;
-            // 
-            // textBox29
-            // 
-            textBox29.Location = new Point(698, 222);
-            textBox29.Name = "textBox29";
-            textBox29.Size = new Size(100, 23);
-            textBox29.TabIndex = 51;
             // 
             // textBox30
             // 
@@ -723,13 +651,6 @@ namespace RealTouchGUI
             textBox32.Size = new Size(100, 23);
             textBox32.TabIndex = 48;
             // 
-            // textBox33
-            // 
-            textBox33.Location = new Point(698, 447);
-            textBox33.Name = "textBox33";
-            textBox33.Size = new Size(100, 23);
-            textBox33.TabIndex = 79;
-            // 
             // textBox34
             // 
             textBox34.Location = new Point(592, 447);
@@ -750,13 +671,6 @@ namespace RealTouchGUI
             textBox36.Name = "textBox36";
             textBox36.Size = new Size(100, 23);
             textBox36.TabIndex = 76;
-            // 
-            // textBox37
-            // 
-            textBox37.Location = new Point(698, 418);
-            textBox37.Name = "textBox37";
-            textBox37.Size = new Size(100, 23);
-            textBox37.TabIndex = 75;
             // 
             // textBox38
             // 
@@ -779,13 +693,6 @@ namespace RealTouchGUI
             textBox40.Size = new Size(100, 23);
             textBox40.TabIndex = 72;
             // 
-            // textBox41
-            // 
-            textBox41.Location = new Point(698, 389);
-            textBox41.Name = "textBox41";
-            textBox41.Size = new Size(100, 23);
-            textBox41.TabIndex = 71;
-            // 
             // textBox42
             // 
             textBox42.Location = new Point(592, 389);
@@ -806,13 +713,6 @@ namespace RealTouchGUI
             textBox44.Name = "textBox44";
             textBox44.Size = new Size(100, 23);
             textBox44.TabIndex = 68;
-            // 
-            // textBox45
-            // 
-            textBox45.Location = new Point(698, 360);
-            textBox45.Name = "textBox45";
-            textBox45.Size = new Size(100, 23);
-            textBox45.TabIndex = 67;
             // 
             // textBox46
             // 
@@ -835,13 +735,6 @@ namespace RealTouchGUI
             textBox48.Size = new Size(100, 23);
             textBox48.TabIndex = 64;
             // 
-            // textBox49
-            // 
-            textBox49.Location = new Point(698, 583);
-            textBox49.Name = "textBox49";
-            textBox49.Size = new Size(100, 23);
-            textBox49.TabIndex = 95;
-            // 
             // textBox50
             // 
             textBox50.Location = new Point(592, 583);
@@ -862,13 +755,6 @@ namespace RealTouchGUI
             textBox52.Name = "textBox52";
             textBox52.Size = new Size(100, 23);
             textBox52.TabIndex = 92;
-            // 
-            // textBox53
-            // 
-            textBox53.Location = new Point(698, 554);
-            textBox53.Name = "textBox53";
-            textBox53.Size = new Size(100, 23);
-            textBox53.TabIndex = 91;
             // 
             // textBox54
             // 
@@ -891,13 +777,6 @@ namespace RealTouchGUI
             textBox56.Size = new Size(100, 23);
             textBox56.TabIndex = 88;
             // 
-            // textBox57
-            // 
-            textBox57.Location = new Point(698, 525);
-            textBox57.Name = "textBox57";
-            textBox57.Size = new Size(100, 23);
-            textBox57.TabIndex = 87;
-            // 
             // textBox58
             // 
             textBox58.Location = new Point(592, 525);
@@ -918,13 +797,6 @@ namespace RealTouchGUI
             textBox60.Name = "textBox60";
             textBox60.Size = new Size(100, 23);
             textBox60.TabIndex = 84;
-            // 
-            // textBox61
-            // 
-            textBox61.Location = new Point(698, 496);
-            textBox61.Name = "textBox61";
-            textBox61.Size = new Size(100, 23);
-            textBox61.TabIndex = 83;
             // 
             // textBox62
             // 
@@ -953,67 +825,51 @@ namespace RealTouchGUI
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlDark;
             ClientSize = new Size(909, 808);
-            Controls.Add(textBox49);
             Controls.Add(textBox50);
             Controls.Add(textBox51);
             Controls.Add(textBox52);
-            Controls.Add(textBox53);
             Controls.Add(textBox54);
             Controls.Add(textBox55);
             Controls.Add(textBox56);
-            Controls.Add(textBox57);
             Controls.Add(textBox58);
             Controls.Add(textBox59);
             Controls.Add(textBox60);
-            Controls.Add(textBox61);
             Controls.Add(textBox62);
             Controls.Add(textBox63);
             Controls.Add(textBox64);
-            Controls.Add(textBox33);
             Controls.Add(textBox34);
             Controls.Add(textBox35);
             Controls.Add(textBox36);
-            Controls.Add(textBox37);
             Controls.Add(textBox38);
             Controls.Add(textBox39);
             Controls.Add(textBox40);
-            Controls.Add(textBox41);
             Controls.Add(textBox42);
             Controls.Add(textBox43);
             Controls.Add(textBox44);
-            Controls.Add(textBox45);
             Controls.Add(textBox46);
             Controls.Add(textBox47);
             Controls.Add(textBox48);
-            Controls.Add(textBox17);
             Controls.Add(textBox18);
             Controls.Add(textBox19);
             Controls.Add(textBox20);
-            Controls.Add(textBox21);
             Controls.Add(textBox22);
             Controls.Add(textBox23);
             Controls.Add(textBox24);
-            Controls.Add(textBox25);
             Controls.Add(textBox26);
             Controls.Add(textBox27);
             Controls.Add(textBox28);
-            Controls.Add(textBox29);
             Controls.Add(textBox30);
             Controls.Add(textBox31);
             Controls.Add(textBox32);
-            Controls.Add(textBox13);
             Controls.Add(textBox14);
             Controls.Add(textBox15);
             Controls.Add(textBox16);
-            Controls.Add(textBox9);
             Controls.Add(textBox10);
             Controls.Add(textBox11);
             Controls.Add(textBox12);
-            Controls.Add(textBox5);
             Controls.Add(textBox6);
             Controls.Add(textBox7);
             Controls.Add(textBox8);
-            Controls.Add(textBox3);
             Controls.Add(textBox4);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
@@ -1097,65 +953,49 @@ namespace RealTouchGUI
         private Button button33;
         private TextBox textBox1;
         private TextBox textBox2;
-        private TextBox textBox3;
         private TextBox textBox4;
-        private TextBox textBox5;
         private TextBox textBox6;
         private TextBox textBox7;
         private TextBox textBox8;
-        private TextBox textBox9;
         private TextBox textBox10;
         private TextBox textBox11;
         private TextBox textBox12;
-        private TextBox textBox13;
         private TextBox textBox14;
         private TextBox textBox15;
         private TextBox textBox16;
-        private TextBox textBox17;
         private TextBox textBox18;
         private TextBox textBox19;
         private TextBox textBox20;
-        private TextBox textBox21;
         private TextBox textBox22;
         private TextBox textBox23;
         private TextBox textBox24;
-        private TextBox textBox25;
         private TextBox textBox26;
         private TextBox textBox27;
         private TextBox textBox28;
-        private TextBox textBox29;
         private TextBox textBox30;
         private TextBox textBox31;
         private TextBox textBox32;
-        private TextBox textBox33;
         private TextBox textBox34;
         private TextBox textBox35;
         private TextBox textBox36;
-        private TextBox textBox37;
         private TextBox textBox38;
         private TextBox textBox39;
         private TextBox textBox40;
-        private TextBox textBox41;
         private TextBox textBox42;
         private TextBox textBox43;
         private TextBox textBox44;
-        private TextBox textBox45;
         private TextBox textBox46;
         private TextBox textBox47;
         private TextBox textBox48;
-        private TextBox textBox49;
         private TextBox textBox50;
         private TextBox textBox51;
         private TextBox textBox52;
-        private TextBox textBox53;
         private TextBox textBox54;
         private TextBox textBox55;
         private TextBox textBox56;
-        private TextBox textBox57;
         private TextBox textBox58;
         private TextBox textBox59;
         private TextBox textBox60;
-        private TextBox textBox61;
         private TextBox textBox62;
         private TextBox textBox63;
         private TextBox textBox64;
