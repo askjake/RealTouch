@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jakes JAM On web server</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            /* Add this to set a background image */
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://scontent-den4-1.xx.fbcdn.net/v/t31.18172-8/10841777_10204411818829157_3404639100110201081_o.jpg?_nc_cat=107&cb=99be929b-59f725be&ccb=1-7&_nc_sid=cdbe9c&_nc_ohc=OwcA9qRGxo8AX-omrr7&_nc_ht=scontent-den4-1.xx&oh=00_AfDH4sKAZoMO2kA8ULX-cgnc4Pu5LAu5mT1v8KDKiqDbEA&oe=64C6A66A');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .content-wrapper {
+            display: flex;
+            justify-content: left;
+            width: 100%;
+            min-width: 450px;
+            margin-top: 0em;
+            margin-left: 0em;
+            margin-right: 0em;
+            margin-bottom: 0em;
+        }
+
+        .list-wrapper {
+            display: flex;
+            padding: 10;
+            flex: 0 0 auto;
+            justify-content: left;
+            background-color: border: 2px solid #ccc;
+            align-items: flex-start;
+            margin-right: 2em;
+        }
+
+        .image-wrapper {
+            flex: 0 0 auto;
+            width: 100%; /* Add this to make sure the image wrapper takes the whole width */
+            padding: 10px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .run-btn {
+            border: none;
+            width: calc(100%/1);
+            height: calc(100%/1);
+            grid-row: auto / span 1;
+            grid-column: auto / span 1;
+            background-color: transparent;
+            padding: 1px;
+        }
+
+            .run-btn:active {
+                background-color: red;
+            }
+
+        .buttons-wrapper {
+            position: relative;
+            min-width: 250px;
+            max-width: 100%;
+            overflow: hidden;
+			
+        }
+
+        .buttons-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            justify-items: stretch; /* Make items stretch horizontally to fill grid */
+            align-items: stretch; /* Make items stretch vertically to fill grid */
+            margin-left: 1.5em;
+            margin-right: 1.7em;
+            margin-top: 2em;
+            margin-bottom: 2em;
+        }
+		.buttons-extra {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			border: 1px solid #000;
+		}
+			
+			
+			
+        .remote-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+
+
+
+
+        #output {
+            margin-top: 0;
+            margin-bottom: 0em;
+            border: 1px solid #ccc;
+            padding: 1px;
+            height: 90%;
+            resize: horizontal;
+            justify-items: center;
+            width: 10em; /* This ensures the textarea takes the whole width of its parent */
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+</body>
+<body>
+
+
+    <div class="image-wrapper">
+        <img src="https://scontent-den4-1.xx.fbcdn.net/v/t1.18169-9/24909957_10212871098065851_5887217625170854676_n.jpg?stp=c0.27.206.206a_dst-jpg_p206x206&_nc_cat=105&cb=99be929b-59f725be&ccb=1-7&_nc_sid=da31f3&_nc_ohc=UlfCgnW66ZkAX-qYqQ9&_nc_ht=scontent-den4-1.xx&oh=00_AfA6-ZvO2IHM4o3RT--yfBGYeBFwyD8hp1GZcnIG9vJiqg&oe=64C6BED5" alt="jam">
+
+        <button onclick="window.location.href='/base';">SGS Settings</button>
+        <button onclick="window.location.href='/serial';">Serial Settings</button>
+        <div>
+            <input type="checkbox" id="sgs" onclick="uncheck('rf')" checked> <label for="sgs">SGS Remote</label>
+            <input type="checkbox" id="rf" onclick="uncheck('sgs')"> <label for="rf">RF Remote</label>
+			<select id="com-select">
+    <option value="" disabled selected>Select COM Port</option>
+</select>
+
+        </div>
+
+    </div>
+
+
+    <div class="content-wrapper">
+        <div class="list-wrapper">
+
+
+            <div id="stb-list"></div>
+        </div>
+
+        <div class="buttons-wrapper">
+            <div>
+                <img src="54.jpg" alt="remote" class="remote-image">
+                <div class="buttons-container">
+                  <button class="run-btn" id="Power"> Power </button>
+                  
+				<button class="run-btn"  id="remote_select">  </button>
+                  <button class="run-btn" id="unpair"> </button>
+                  <button class="run-btn"  id="DVR"> DVR </button>
+				  <button class="run-btn"  id="Home">---- </button>
+                    <button class="run-btn" id="Guide"> Guide </button>
+                    <button class="run-btn" id="Options"> Options </button>
+                    <button class="run-btn" id="Up"> Up up up up</button>
+                    <button class="run-btn" id="Voice"> Voice </button>
+                    <button class="run-btn" id="Left"> Left </button>
+                    <button class="run-btn" id="Enter"> Select Enter  </button>
+                    <button class="run-btn" id="Right"> Right </button>
+					
+                    <button class="run-btn" id="Back"> Back </button>
+                    <button class="run-btn" id="Down"> Down Down</button>
+                    <button class="run-btn" id="Info"> Info </button>
+                    <button class="run-btn" id="RWD"> - </button>
+                    <button class="run-btn" id="Play"> Play Play play</button>
+                    <button class="run-btn" id="FWD"> - </button>
+                    <button class="run-btn" id="VolUp"> VolUp </button>
+                    <button class="run-btn" id="Recall"> - </button>
+                    <button class="run-btn" id="Channel Up"> - </button>
+                    <button class="run-btn" id="VolDown"> VolDown </button>
+                    <button class="run-btn" id="Mute"> - </button>
+                    <button class="run-btn" id="Channel Down"> - </button>
+                    <button class="run-btn" id="1"> 1 </button>
+                    <button class="run-btn" id="2"> 2 </button>
+                    <button class="run-btn" id="3"> 3 </button>
+                    <button class="run-btn" id="4"> - </button>
+                    <button class="run-btn" id="5"> 5 </button>
+                    <button class="run-btn" id="6"> 6 </button>
+                    <button class="run-btn" id="7"> 7 </button>
+                    <button class="run-btn" id="8"> 8 </button>
+                    <button class="run-btn" id="9"> 9 </button>
+                    <button class="run-btn" id="Diamond"> - </button>
+                    <button class="run-btn" id="0"> - </button>
+                    <button class="run-btn" id="DDiamond">---- </button>
+					<button class="run-btn" id="Live TV">  </button>
+                    <button class="run-btn" id="PiP Toggle"> -- </button>
+                    <button class="run-btn" id="Sys Info">  </button>
+                    <button class="run-btn" id="Input">  </button>
+                    <button class="run-btn" id="NULL">  </button>
+                    <button class="run-btn" id="NULL">  </button>
+
+                </div>
+				
+            </div>
+        </div>
+        <div class="content-wrapper">
+            <div>
+                <textarea id="output"></textarea>
+				</div>
+				<div class="buttons-extra">
+				<button class="run-btn"  id="remote_select"> Remote Select </button>
+                  <button class="run-btn" id="unpair"> Unpair </button>
+                  <button class="run-btn"  id="Live TV"> Live TV </button>
+				  <button class="run-btn"  id="Sys Info"> Sys Info </button>
+                    <button class="run-btn" id="Guide">  </button>
+                    <button class="run-btn" id="Options">  </button>
+                    <button class="run-btn" id="Up"> </button>
+                    <button class="run-btn" id="Voice">  </button>
+                    <button class="run-btn" id="Left">  </button>
+                    <button class="run-btn" id="Enter">   </button>
+                    <button class="run-btn" id="Right">  </button>
+					<button class="run-btn"  id="remote_select">  </button>
+                <button class="run-btn" id="unpair">  </button>
+                  <button class="run-btn"  id="DVR">  </button>
+				  <button class="run-btn"  id="Home"> </button>
+                    <button class="run-btn" id="Guide">  </button>
+                    <button class="run-btn" id="Options">  </button>
+                    <button class="run-btn" id="Up"> </button>
+                    <button class="run-btn" id="Voice">  </button>
+                    <button class="run-btn" id="Left">  </button>
+                    <button class="run-btn" id="Enter">   </button>
+                    <button class="run-btn" id="Right">  </button>
+					</div>
+<script>
+	
+    window.onload = function () {
+    fetch('/settings')
+        .then(response => response.json())
+        .then(data => {
+            let html = '<ul>';
+            for (let stb in data.stbs) {
+                html += `<li>
+                            <input type="checkbox" class="stb-checkbox" id="${stb}" value="${stb}">
+                            <label for="${stb}">${stb}</label>
+                         </li>`;
+            }
+            html += '</ul>';
+
+            // Add "Select All" checkbox at the beginning of the list
+            html = `<input type="checkbox" id="select-all"> <label for="select-all">Select All</label>` + html;
+
+            document.getElementById('stb-list').innerHTML = html;
+
+            // Add event listener to "Select All" checkbox
+            document.getElementById('select-all').addEventListener('change', function () {
+                let checkboxes = document.getElementsByClassName('stb-checkbox');
+                for (let i = 0; i < checkboxes.length; i++) {
+                    checkboxes[i].checked = this.checked;
+                }
+            });
+let selectedStb = '';
+
+            // Add event listeners to stb-checkbox checkboxes
+            let stbCheckboxes = document.getElementsByClassName('stb-checkbox');
+            for (let i = 0; i < stbCheckboxes.length; i++) {
+                stbCheckboxes[i].addEventListener('change', function () {
+                    if (document.getElementById('rf').checked) {
+                        for (let j = 0; j < stbCheckboxes.length; j++) {
+                            if (stbCheckboxes[j] !== this) {
+                                stbCheckboxes[j].checked = false;
+								
+                            }
+                        }
+						selectedStb = this.checked ? this.id : '';
+						
+                    }
+                });
+            }
+			
+
+            // Add event listener to 'rf' checkbox
+            document.getElementById('rf').addEventListener('change', function () {
+                if (this.checked) {
+                    for (let i = 0; i < stbCheckboxes.length; i++) {
+                        stbCheckboxes[i].checked = false;
+                    }
+                }
+            });
+        });
+};
+
+function uncheck(id) {
+    document.getElementById(id).checked = false;
+}
+
+
+    $(".run-btn").click(async function () {
+    var button_id = this.id === 'remote_select' && rf ? selectedStb : this.id;
+    var checkedStbs = [];
+    var sgs = document.getElementById('sgs').checked;
+    var rf = document.getElementById('rf').checked;
+
+    // Reset the output window
+    document.getElementById('output').value = '';
+
+    // Get all checked STBs
+    let checkboxes = document.getElementsByClassName('stb-checkbox');
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            checkedStbs.push(checkboxes[i].id);
+        }
+    }
+
+    // Fetch the base data from 'base.txt'
+    let response = await fetch('/base.txt');
+    let baseData = await response.json();
+
+    // Make a fetch request to the server for each checked STB
+    let promises = checkedStbs.map(async (stb) => {
+        let stbData = baseData.stbs[stb];
+
+        if (!stbData) {
+            console.log(`No data found for ${stb}`);
+            return;
+        }
+
+        let com = stbData.com;
+		
+		
+        // Conditional fetch based on checked checkboxes
+        if (rf) {
+            return fetch(`/54/${stb}/${com}/${button_id}`, { method: 'POST' })
+                .then(response => response.text())
+                .then(data => document.getElementById('output').value += `${stb}: ${button_id}\n`)
+                .catch(err => console.log(err));
+        } else if (sgs) {
+            return fetch(`/run_script/${stb}/${sgs}/${rf}/${button_id}`, { method: 'POST' })
+                .then(response => response.text())
+                .then(data => document.getElementById('output').value += `${stb}: ${button_id}\n`)
+                .catch(err => console.log(err));
+        }
+    });
+
+    // Wait for all promises to resolve
+    await Promise.all(promises);
+});
+
+
+</script>

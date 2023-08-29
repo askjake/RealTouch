@@ -1,0 +1,41 @@
+The simplified example of SGS commands exchange
+
+it illustrates process of pairing to the STB and common SGS commands exchange
+
+######################################################################################
+- sgs_pair_simple.py
+
+the process of pairing PC as a 3rd party device.
+As a result of this command execution you will get the login and passowrd
+that shoudl be used in following communication with production STBs
+
+Example:
+./sgs_pair_simple.py -m 9c7bef372fef -r XS99c7bef372fef -s R1911703199-05 -i 192.168.1.115
+
+Note, the -m (mac) specifies without separators.
+the -r (this device RID) is generated using mac in the way 'XS9<mac>'
+
+for help:
+./sgs_pair_simple.py -h
+
+
+######################################################################################
+- sgs_remote_simple.py 
+
+sends the Remote Key(s) to the STB using SGS commands.
+it automatically attach to the STB using login and password,
+sends the key (or keys)
+and detach
+
+
+Example:
+./sgs_remote_simple.py -l v0001_client_4ce2e5e53f58a15edc9b5b52895b03c4e831eb9f -p 55b145de6710b27b3bab7900dbcf3f64e36b03b3 -r XAF9c7bef372fef -i 192.168.1.115 -s R1911703199-05 Cancel
+
+for help:
+./sgs_remote_simple.py -h
+
+
+######################################################################################
+Note, the Python may print warnings about non-registered certificate.
+to remove warnings export the following bash env
+export PYTHONWARNINGS="ignore:Unverified HTTPS request"

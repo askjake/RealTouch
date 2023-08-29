@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jakes JAM settings</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		 body{
+            /* Add this to set a background image */
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+			margin: 0;
+			padding: 0;
+            /*background-image: url('https://scontent-den4-1.xx.fbcdn.net/v/t31.18172-8/885974_10204411825589326_4639638749207830540_o.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cdbe9c&_nc_ohc=r_f2pXJTNsYAX8dkvvu&_nc_ht=scontent-den4-1.xx&oh=00_AfAAPXzFor9de4DDo6V9_nJ3AVz42BL-ao5prLc7BXvyew&oe=64AEE4D8');*/
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+	
+        .content-wrapper {
+            display: flex;
+            justify-content: space-between; 
+			margin-top: 2em; 
+			margin-left: 2em;
+			margin-right: 2em;
+			margin-bottom: 2em;
+        }
+
+        .image-wrapper {
+            flex: 0 0 auto; 
+            width: 100%; /* Add this to make sure the image wrapper takes the whole width */
+        }
+
+
+
+		 .args-wrapper {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);  /* Adjust the number of columns based on your need */
+        grid-gap: 25px;
+        align-items: center;
+        justify-items: center;
+        margin-left: 0em;
+        margin-bottom: 0em;
+        
+        padding: 20px; /* Added some padding for better spacing */
+		    min-height: 200px;
+    width: 100%;
+	min-width: 450px; 
+    }
+
+        
+		
+        #output {
+            margin-top: 0;
+            margin-bottom: 0em;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 200px;
+            resize: vertical;
+            justify-items: center;
+            width: 100%; /* This ensures the textarea takes the whole width of its parent */
+        }
+		
+    </style>
+</head>
+
+<body>
+    <div class="content-wrapper">
+        <div class="image-wrapper">
+            <img src="https://yt3.ggpht.com/yti/AHyvSCDmCDSQ7pWXPPNNs-fXHHOp4zJVww4RPuUFhAXU=s108-c-k-c0x00ffffff-no-rj" alt="jam">
+
+            <button onclick="window.location.href='/';">Go to Home</button>
+            <button id="load-settings-btn">Load Settings</button>
+            <button id="commit-changes-btn">Save</button>
+			<button onclick="window.location.href='/update_stb_list';"> Re-scan STB's </button>
+            <!-- <input type="text" id="com" placeholder="Enter COM Port" class="content-wrapper"> -->
+			<select id="com-select" class="content-wrapper"> COM19 </select>
+
+
+
+            <div id="tableContainer"></div>
+            <p id="serverOutput"></p>
+            <div id="pinModal" style="display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4);">
+                <div style="background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 30%;">
+
+                    <label for="pinInput">Please enter the 6-digit pin:</label><br>
+                    <input type="text" id="pinInput" name="pinInput"><br>
+                    <button id="submitPin">Submit</button>
+                    <button id="cancelPin">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
+<body>
+<script>
+                 let MAX_ROWS = 1;
+    async function createTable() {
+        let tableContainer = document.getElementById('tableContainer');
+        tableContainer.innerHTML = ''; // Empty the table container
+        let table = document.createElement('table');
+        table.id = "settings-table";
+
+        // Fetch settings to determine the number of rows
+        let response = await fetch('/settings');
+        let data = await response.json();
+        let keys = Object.keys(data.stbs);
+        MAX_ROWS = keys.length + 1;
+
+        for (let i = 0; i < MAX_ROWS; i++) {
+            let row = table.insertRow();
+            for (let j = 0; j < 3; j++) {
+                let cell = row.insertCell();
+                let input = document.createElement('input');
+                input.type = 'text';
+                cell.appendChild(input);
+            }
+            // Add the "Pair" button
+            let pairButtonCell = row.insertCell();
+            let pairButton = document.createElement('button');
+            pairButton.innerText = 'Pair';
+
+pairButton.onclick = async function () {
+    stb = row.cells[1].children[0].value;
+    ip = row.cells[2].children[0].value;
+    let startPairResponse = await fetch(`/sgs_pair_start/${stb}/${ip}`, { method: 'POST' });
+    let startPairResponseText = await startPairResponse.text();
+    pinModal.style.display = 'block'; 
+};
+
+submitPin.onclick = async function () {
+    pinModal.style.display = 'none'; // Hide the modal
+    let pin = pinInput.value;
+    if (pin.length === 6) { // Only proceed if the pin length is as expected
+        let finishPairResponse = await fetch(`/sgs_pair_finish/${stb}/${ip}/${pin}`, { method: 'POST' });
+let finishPairResponseText = await finishPairResponse.text();
+
+if (finishPairResponse.ok) {
+    // Handle successful response here
+} else {
+    alert("Pairing failed! Please try again.");
+}}};
+
+                // When the user clicks on Cancel, hide the modal and clear the input
+                cancelPin.onclick = function () {
+                    pinModal.style.display = 'none'; // Hide the modal
+                    pinInput.value = ''; // Clear the input
+                };
+            pairButtonCell.appendChild(pairButton);}
+			tableContainer.appendChild(table);}
+			document.getElementById('commit-changes-btn').addEventListener('click', async function () {
+    let table = document.getElementById('settings-table');
+
+    // Fetch current settings
+    let currentSettings = {};
+    try {
+        let response = await fetch('/settings');
+        currentSettings = await response.json();
+    } catch (err) {
+        console.log(err);
+    }
+
+    let comValue = document.getElementById('com').value;
+
+    let data = { stbs: {} };
+    for (let i = 0; i < MAX_ROWS; i++) {
+        let row = table.rows[i];
+        let key = row.cells[0].children[0].value;  // stbs (key)
+        if (key !== "") {  // Ignore empty keys
+            let currentStbSettings = currentSettings.stbs[key] || {};
+            data.stbs[key] = {
+                ...currentStbSettings,
+                stb: row.cells[1].children[0].value,  // stb
+                ip: row.cells[2].children[0].value,  // ip
+                //com: comValue  // Use the common COM value
+            };
+        }
+    }
+
+    fetch('/save_settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+});
+
+document.getElementById('load-settings-btn').addEventListener('click', function () {
+    fetch('/settings')
+        .then(response => response.json())
+        .then(data => {
+            let table = document.getElementById('settings-table');
+            let i = 0;
+
+            // Use a common COM for all rows
+            let commonCOM = data.stbs[Object.keys(data.stbs)[0]].com;
+            document.getElementById('com').value = commonCOM;
+
+            for (let key in data.stbs) {
+                if (i >= MAX_ROWS) break;  // Only fill up to 16 rows
+                let row = table.rows[i];
+                row.cells[0].children[0].value = key;  // stbs (key)
+                row.cells[1].children[0].value = data.stbs[key].stb;  // stb
+                row.cells[2].children[0].value = data.stbs[key].ip;  // ip
+                i++;
+            }
+        });
+});
+
+                createTable();
+                // Fetch available COM ports on page load and populate dropdown
+window.onload = async function () {
+    // Fetch and populate settings on load
+    fetch('/settings')
+        .then(response => response.json())
+        .then(data => {
+            let table = document.getElementById('settings-table');
+            let i = 0;
+            for (let key in data.stbs) {
+                if (i >= MAX_ROWS) break;  // Only fill up to 16 rows
+                let row = table.rows[i];
+                row.cells[0].children[0].value = key;  // stbs (key)
+                row.cells[1].children[0].value = data.stbs[key].stb;  // stb
+                row.cells[2].children[0].value = data.stbs[key].ip;  // ip
+                 //Assuming COM is the 4th column in the settings data;
+                 row.cells[3].children[0].value = data.stbs[key].com; 
+                i++;
+            }
+        });
+
+    // Fetch available COM ports on page load and populate dropdown
+    const response = await fetch('/getComPorts');
+    const comPorts = await response.json();
+
+    const comPortSelect = document.getElementById('com-select');
+    for (const port of comPorts) {
+        const option = document.createElement('option');
+        option.text = port;
+        option.value = port;
+        comPortSelect.add(option);
+    }
+};
+
+            </script>
+</body>

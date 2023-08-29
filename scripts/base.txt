@@ -1,0 +1,115 @@
+{
+  "iface_name": "enp5s0",
+  "default_stb_ip": "192.168.1.24",
+  "default_stb_port": "8080",
+  "default_stb": "stb6",
+  "stbs": {
+    "stb1": {
+      "stb": "R1886471350-71",
+      "ip": "192.168.123.11",
+      "lname": "v0001_client_748a19add61f1dcd6cbfabb8005a42db26e64864",
+      "passwd": "3a0f9207dfebd347745a28e85f21e59fda7c7676"
+    },
+    "stb2": {
+      "stb": "R1886471010-28",
+      "ip": "192.168.123.12",
+      "lname": "v0001_client_944eecc2259a52e23af04591ce380f310627159c",
+      "passwd": "16686b1fb3ec3cdef0df6e4f5718fde3c0d04fbb"
+    },
+    "stb3": {
+      "stb": "R1886471475-97",
+      "ip": "192.168.123.13",
+      "prod": true,
+      "lname": "v0001_client_19c33be807fdc3677cf4281424f259164289fb32",
+      "passwd": "1e9cb136924284a7c350f1763b87d405e41c160b"
+    },
+	"stb4": {
+      "stb": "R1911703992-06",
+      "ip": "172.20.110.243",
+      "prod": true,
+      "lname": "v0001_client_19c33be807fdc3677cf4281424f259164289fb32",
+	  "passwd": "1e9cb136924284a7c350f1763b87d405e41c160b"
+	},
+    "stb5": {
+      "stb": "R1911704038-53",
+      "ip": "192.168.123.15",
+      "lname": "v0001_client_944eecc2259a52e23af04591ce380f310627159c",
+      "passwd": "16686b1fb3ec3cdef0df6e4f5718fde3c0d04fbb"
+    },
+    "stb6": {
+      "stb": "R1911703088-93",
+      "ip": "192.168.123.16",
+      "lname": "v0001_client_5a7bdc3459e19e73eea8c1775e0481ff9369f2d3",
+      "passwd": "f5b42ced8a3d4108eb9f0e694c2e4bc6235b6395"
+    },
+    "stb7": {
+      "stb": "R1911704957-58",
+      "ip": "192.168.123.17",
+      "lname": "v0001_client_944eecc2259a52e23af04591ce380f310627159c",
+      "passwd": "16686b1fb3ec3cdef0df6e4f5718fde3c0d04fbb"
+    },
+    "stb8": {
+      "stb": "R1911705114-17",
+	  "prod": true,
+      "ip": "192.168.123.18",
+      "lname":  "v0001_client_944eecc2259a52e23af04591ce380f310627159c",
+      "passwd": "16686b1fb3ec3cdef0df6e4f5718fde3c0d04fbb"
+    },
+    "stb9": {
+      "stb": "R1911705088-90",
+      "ip": "172.20.110.238",
+      "lname": "v0001_client_b87df0fbadce7ae50018a8cf75ec5ae3b88302da",
+      "passwd": "e78b6e2257483f3922b8c12a4fd9f6caa7200aa8"
+    },
+    "stb10": {
+      "stb": "R1886471404-26",
+      "ip": "172.20.110.237",
+      "lname": "v0001_client_944eecc2259a52e23af04591ce380f310627159c",
+      "passwd": "16686b1fb3ec3cdef0df6e4f5718fde3c0d04fbb"
+    },
+    "stb11": {
+      "stb": "R1956349185-98",
+      "prod": true,
+      "ip": "172.20.110.236",
+      "lname": "v0001_client_93af13033f89e3c9738c8d30aafbf89f5f3e76cf",
+      "passwd": "8b413dcfb17edc061a227af637020afa2e0fcc2e"
+    },
+    "stb12": {
+      "stb": "R1963244619-33",
+      "prod": true,
+      "ip": "172.20.110.248",
+      "lname": "v0001_client_93af13033f89e3c9738c8d30aafbf89f5f3e76cf",
+      "passwd": "8b413dcfb17edc061a227af637020afa2e0fcc2e"
+    },
+    "stb13": {
+      "stb": "R1946890461-63",
+      "prod": true,
+      "ip": "172.20.110.242",
+      "lname": "v0001_client_93af13033f89e3c9738c8d30aafbf89f5f3e76cf",
+      "passwd": "8b413dcfb17edc061a227af637020afa2e0fcc2e"
+    },
+    "stb14": {
+      "stb": "R1954124733-43",
+      "prod": true,
+      "ip": "172.20.110.246",
+      "lname": "v0001_client_912db8a3e8b334b917dc9d3334a56200af36f60e",
+      "passwd": "fc67f930102096c2792c5540b67719f7390ed253"
+    },
+    "stb15": {
+      "stb": "R1911088562-63",
+      "prod": true,
+      "ip": "172.20.110.239",
+      "lname": "v0001_client_cda6d471ee2e65b4582f643ac51aa803ddb72dff",
+      "passwd": "faf91d4b9965780ccfc168c69df7ec64566eb5bf"
+    },
+    "stb16": {
+      "stb": "R1912226744-65",
+      "prod": true,
+      "ip": "172.20.110.240",
+      "lname": "v0001_client_cda6d471ee2e65b4582f643ac51aa803ddb72dff",
+      "passwd": "faf91d4b9965780ccfc168c69df7ec64566eb5bf"
+    }
+ 
+  }
+}
+dh

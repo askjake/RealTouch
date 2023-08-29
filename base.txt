@@ -1,0 +1,172 @@
+{
+    "iface_name": "enp5s0",
+    "default_stb_ip": "192.168.1.24",
+    "default_stb_port": "8080",
+    "default_stb": "stb6",
+    "stbs": {
+        "remote 01": {
+            "com": "COM19",
+            "remote": "remote 01",
+            "ip": "172.20.110.241",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1886471350-71"
+        },
+        "remote 02": {
+            "com": "COM19",
+            "ip": "172.20.110.132",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1886471010-28"
+        },
+        "remote 03": {
+            "com": "COM19",
+            "ip": "172.20.110.133",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1886471475-97"
+        },
+        "remote 04": {
+            "com": "COM19",
+            "ip": "172.20.110.243",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911703992-06"
+        },
+        "remote 05": {
+            "com": "COM19",
+            "ip": "172.20.110.247",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911704038-53"
+        },
+        "remote 06": {
+            "com": "COM19",
+            "ip": "172.20.110.245",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911703088-93"
+        },
+        "remote 07": {
+            "com": "COM19",
+            "ip": "172.20.110.131",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911704957-58"
+        },
+        "remote 08": {
+            "com": "COM19",
+            "ip": "172.20.110.135",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911705114-17"
+        },
+        "remote 09": {
+            "com": "COM19",
+            "ip": "172.20.110.238",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911705088-90"
+        },
+        "remote 10": {
+            "com": "COM19",
+            "ip": "172.20.110.237",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1886471404-26"
+        },
+        "remote 11": {
+            "com": "COM19",
+            "ip": "172.20.110.23",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1956349185-98"
+        },
+        "remote 12": {
+            "com": "COM19",
+            "ip": "172.20.110.24",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1963244619-33"
+        },
+        "remote 13": {
+            "com": "COM19",
+            "ip": "172.20.110.24",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1946890461-63"
+        },
+        "remote 14": {
+            "com": "COM19",
+            "ip": "172.20.110.24",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1954124733-43"
+        },
+        "remote 15": {
+            "com": "COM19",
+            "ip": "172.20.110.23",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1911088562-63"
+        },
+        "remote 16": {
+            "com": "COM19",
+            "ip": "172.20.110.24",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1912226744-65"
+        },
+        "remote 17": {
+            "com": "COM19",
+            "ip": "172.20.110.24",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1971324855"
+        },
+        "ATV - WJ4": {
+            "com": "COM19",
+            "ip": "172.20.110.123",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1971324691-06"
+        },
+        "ATV - moca": {
+            "com": "COM19",
+            "ip": "172.20.110.146",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1971325377-99"
+        },
+        "unkown": {
+            "com": "COM19",
+            "ip": "172.20.110.126",
+            "lname": "",
+            "passwd": "",
+            "prod": "",
+            "stb": "R1971324697-06"
+        }
+    },
+    "stb": null,
+    "ip": null,
+    "com": null
+}
